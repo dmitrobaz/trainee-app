@@ -1,0 +1,29 @@
+@import "./scss/login";
+@import "./scss/vars";
+
+*{
+    padding:0;
+    margin:0;
+    list-style:none;
+    outline:none;
+    font-family:'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+body{
+    background-color: $BGC_BODY;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-color: $BGC_BODY;
+}
