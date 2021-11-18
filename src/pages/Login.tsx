@@ -1,12 +1,8 @@
 import React from 'react';
 import { FormBuilder } from '../components';
-
-
+import { loginConfig as formConfig } from '../config/configForLoginForm';
 
 const Login: React.FC = () => {
-    const formConfig = [
-        { name: 'login', placeholder: 'Username', type: 'text' },
-        { name: 'password', placeholder: 'Password', type: 'password' }]
 
     return (
         <FormBuilder

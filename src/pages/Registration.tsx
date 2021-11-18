@@ -1,17 +1,9 @@
 import React from 'react';
 
 import { FormBuilder } from '../components';
-
-
+import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
 const Registration: React.FC = () => {
-
-    const formConfig = [
-        { name: 'email', placeholder: 'Email', type: 'email' },
-        { name: 'login', placeholder: 'Username', type: 'text' },
-        { name: 'password', placeholder: 'Password', type: 'password' },
-        { name: 'repassword', placeholder: 'Confirm password', type: 'password' }]
-
 
     return (
         <FormBuilder

@@ -8,49 +8,69 @@
     background-color: $BGC_CONTAINER ;
     padding: 15px;
     border-radius: 5px;
+    &__error{
+        font-size: 0.7em;
+        padding: 0;
+        margin: 0;
+    }
     &__title{
         margin-bottom: 10px;
+        text-align: center;
         
     }
-    &__input{
-        padding: 10px;
-        margin: 10px 0 10px 0;
-        text-align: center;
-        border: none;
-        border-radius: 5px;
-        background-color: $BGC_INPUT;
-        transition: 0.2s ease-in;
-        width: 100%;
-        &:focus{
-            border: 1px solid rgb(218, 218, 218);
-            background-color: #fff;
+    &__input-block{
+        height: 60px;
+        margin-bottom: 5px;
+        &-item{
+            padding: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background-color: $BGC_INPUT;
+            transition: 0.2s ease-in;
+            width: 100%;
+            &:focus{
+                border: 1px solid rgb(218, 218, 218);
+                background-color: #fff;
+            }
+            &.error{
+                padding: 10px;
+                text-align: center;
+                border: 1px solid $BORDER_INPUT_ERROR;
+                border-radius: 5px;
+                background-color: $BGC_INPUT_ERROR;
+                transition: 0.2s ease-in;
+                width: 100%;
+            }
+        }
+        &-button{
+            background-color: $BGC_BUTTON;    
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: #000;
+            cursor: pointer;
+            transition: 0.2s ease-in ;
+            width: 100%;
+            &:hover{
+                background-color: $BGC_BUTTON_HOVER;    
+            }
+            &.disabled{
+                background-color: #c5c5c5;
+            }
+    
+        }
+        &-link{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            text-decoration:none;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
         }
     }
-    &__button{
-        background-color: $BGC_BUTTON;    
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        color: #000;
-        margin-top: 10px;
-        cursor: pointer;
-        transition: 0.2s ease-in ;
-        width: 100%;
-        &:hover{
-            background-color: $BGC_BUTTON_HOVER;    
-        }
-        &.disabled{
-            background-color: #c5c5c5;
-        }
+    
+    
 
-    }
-    &__link{
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        text-decoration:none;
-        font-size: 13px;
-        text-align: center;
-        margin-top: 10px;
-    }
 }

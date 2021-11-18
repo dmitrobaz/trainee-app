@@ -27,3 +27,21 @@ body{
     height: 100vh;
     background-color: $BGC_BODY;
 }
+.main-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15%;
+    a{
+        margin-top: 20px;
+        text-decoration: none;
+        padding: 5px 15px 10px 15px;
+        transition: 0.3s ease-in;
+        color: #000;
+        &:hover{
+            
+            background-color: rgb(255, 199, 199);
+            border-radius: 5px;
+        }
+    }
+}

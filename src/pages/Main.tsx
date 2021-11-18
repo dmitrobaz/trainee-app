@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Main = () => {
+const Main: React.FC = () => {
+
     return (
-        <h1>Main page</h1>
+        <div className='main-page'>
+            <h1>Main page</h1>
+            <Link to="/login">Log in</Link>
+        </div>
     );
 }
 
