@@ -1,14 +1,27 @@
 import * as validator from "./index";
 
-export const selectValidationType = (valid: object, atr: string) => {
-    switch (valid.type) {
-        case 'isEmpty':
-            return validator.isEmpty(atr)
+interface IConfigProps {
+    type?: string,
+    name?: string,
+    maxLength?: number,
+    minLength?: number,
+    validation?: any,
+    password?: any,
+    repassword?: any
+}
+
+export const selectValidationType = (validationsRule: any, valueToCheck: any, stateKey: string) => {
+ 
+    switch (validationsRule.type) {
         case 'isRightEmail':
-            return validator.isRightEmail(atr)
-        case 'isRightLengthLogin':
-            return validator.isRightLengthLogin(valid.maxLength, valid.minLength, atr)
-        case 'isRightLengthPassword':
-            return validator.isRightLengthPassword(atr)
+            return validator.isRightEmail(valueToCheck)
+        case 'isRightLength':
+            return validator.isRightLengthLogin(validationsRule.maxLength, validationsRule.minLength, valueToCheck)
+        case 'isSameValue':
+            return validator.isSameValue(valueToCheck)
+        default:
+            console.log("Was not validated!");
+
+
     }
 }
