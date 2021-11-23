@@ -24,7 +24,7 @@ const Login: React.FC<ILogin> = () => {
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ dataBase }: any) => dataBase.users[0])
+    const usersFromRedux = useSelector(({ dataBase }: { [name: string]: any }) => dataBase.users[0] ? dataBase.users[0] : { login: '' })
     const history = useHistory()
 
     // FUNCTIONS=================================
@@ -45,9 +45,9 @@ const Login: React.FC<ILogin> = () => {
         const dataFromLocalStorage: any = localStorage.getItem('users')
         const userData = JSON.parse(dataFromLocalStorage)
 
-        if (isSameLoginPasswordRedux(formData, userData)) {
+        if (isSameLoginPasswordRedux(formData, usersFromRedux)) {
             dispatch(addUserToStore(userData))
-            history.push('/')
+            history.push('/products')
             setErrorSingUp('')
             return
         }
