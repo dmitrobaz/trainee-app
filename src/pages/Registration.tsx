@@ -19,9 +19,9 @@ interface IRegProps {
 
 const Registration: React.FC<IRegProps> = ({ setRedirect }) => {
 
-    const history = useHistory()
     // CONSTANTS=================================
     const dispatch: (obj: object) => void = useDispatch();
+    const history = useHistory()
 
 
     // STATETS===================================
@@ -37,8 +37,6 @@ const Registration: React.FC<IRegProps> = ({ setRedirect }) => {
 
         // Add form data to local storage 
         localStorage.setItem('users', JSON.stringify(formData));
-        // localStorage.setItem('users', formData);
-
 
         // Redirect to login page 
         history.push('/login')

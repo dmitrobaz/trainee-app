@@ -2,76 +2,86 @@ import React, { useState, useEffect } from 'react';
 import { FormBuilder } from '../components';
 import { loginConfig as formConfig } from '../config/configForLoginForm';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { addUserToStore } from '../redux/actions/addUserToStore';
 
+interface IDataUser {
 
-interface IUserData {
-    [name: string]: string
+}
+interface ILogin {
+    isSameLoginPassword: (formData: any, userData: any) => boolean,
+    dispatch: (obj: object) => void,
+    history: () => void
 }
 
-interface ILoginProps {
-    setRedirect?: any
-}
-
-const Login: React.FC<ILoginProps> = ({ setRedirect }) => {
-    const usersObject = useSelector(({ dataBase }: any) => dataBase);
-    const dispatch: (obj: object) => void = useDispatch();
-
-    const history = useHistory()
+const Login: React.FC<ILogin> = () => {
 
     // STATETS===================================
-    // States for Login,Password
-    const [registrationData, setRegistrationData] = useState<IUserData>({})
+    // States for error when login not exist in local storage
+    const [errorSingUp, setErrorSingUp] = useState<string>('')
 
-    // HOOKS=====================================
-    // Creating a new record in the store redux
-    // useEffect(() => {
-    //     if ((registrationData.login === usersObject.users[0]?.login)
-    //         && (registrationData.password === usersObject.users[0]?.password)) {
-    //         // setRedirect(true)
+    // CONSTANTS================================= 
+    const dispatch = useDispatch();
+    const usersFromRedux = useSelector(({ dataBase }: any) => dataBase.users[0])
+    const history = useHistory()
 
-    //         return
-    //     }
-    // }, [registrationData])
+    // FUNCTIONS=================================
+    // Check password and login from input states(formData) with data in local storage 
+    const isSameLoginPasswordLocalStorage =
+        (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
+            (formData.login === localStorageData.login)
+            && (formData.password === localStorageData.password)
 
-    const isExistUserInStore = () => {
-        return localStorage.getItem('users')
-    }
+    // Check password and login from input states(formData) with data in Redux storage 
+    const isSameLoginPasswordRedux =
+        (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
+            (formData.login === dataBase.login)
+            && (formData.password === dataBase.password)
 
-    const takeDataFromFormBuilder: any = (formData: any) => {
-        // const email = isExistUserInStore()
-        const dataFromLocalStorage: any = isExistUserInStore();
+
+    const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
+        const dataFromLocalStorage: any = localStorage.getItem('users')
         const userData = JSON.parse(dataFromLocalStorage)
 
-        if ((formData.login === userData.login)
-            && (formData.password === userData.password)) {
+        if (isSameLoginPasswordRedux(formData, userData)) {
             dispatch(addUserToStore(userData))
             history.push('/')
-
+            setErrorSingUp('')
             return
         }
 
+        setErrorSingUp('User with this login does not exist');
 
 
-
-        // Add form data to local storage 
-        // localStorage.setItem('user', JSON.stringify(formData));
-
-        // Redirect to login page 
-        // history.push('/login')
     }
     return (
-        <FormBuilder
-            takeData={(obj: any) => takeDataFromFormBuilder(obj)}
-            config={formConfig}
-            buttonText="Login"
-            formTitle="Login"
-            linkText="Forgot password"
-            link="/registration"
-        />
+
+        <div style={{ display: 'flex', position: 'relative' }}>
+            {errorSingUp !== ''
+                ? <span style={{
+                    position: 'absolute',
+                    top: "182px",
+                    textAlign: 'center',
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    backgroundColor: '#ff7676',
+                }}>{errorSingUp}</span>
+                : ""
+            }
+            <FormBuilder
+                takeData={(obj: object) => takeDataFromFormBuilder(obj)}
+                config={formConfig}
+                buttonText="Login"
+                formTitle="Login"
+                linkText="Forgot password"
+                link="/registration"
+                errorSingUp={errorSingUp}
+            />
+
+        </div >
     );
 }
 

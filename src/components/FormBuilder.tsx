@@ -11,6 +11,7 @@ interface IComponentProps {
     config: Array<{ [name: string]: any }>,
     link: string,
     takeData?: any,
+    errorSingUp?: any
 
 }
 
@@ -22,7 +23,7 @@ interface IinputErrors {
 }
 
 
-const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, link, buttonText, takeData }) => {
+const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, link, buttonText, takeData, errorSingUp }) => {
 
 
     // STATES=======================================
@@ -49,13 +50,9 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
 
     // HOOKS==========================================
 
-    // useEffect(() => (validForm && takeData(formState)), [validForm])
+    useEffect(() => (validForm && takeData(formState)), [validForm, mouseClick])
 
-    useEffect(() => {
-        console.log(inputErrors !== {});
-
-        // (inputErrors !== {}) && setValidForm(isValidForm) 
-    }, [inputErrors, mouseClick])
+    useEffect(() => { (Object.keys(inputErrors).length > 0 && setValidForm(isValidForm)) }, [inputErrors])
 
     // HANDLERS=======================================
 
@@ -68,10 +65,7 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
 
         config.forEach(itemConfig => validationForm(itemConfig.name, formState[itemConfig.name], itemConfig.validation))
 
-        // setValidForm(isValidForm)
-        console.log(inputErrors);
-
-        console.log(validForm);
+        setMouseClick(!mouseClick)
 
         setShowErrors(true)
 
@@ -104,7 +98,10 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
 
     return (
         <form className='login-form'>
-            <h1 className='login-form__title'>{formTitle}</h1>
+            <h1 className='login-form__title'>
+                {formTitle}
+            </h1>
+
             {config.map((item, id) => (
                 <Input
                     onChange={onChangeHandler}
@@ -117,8 +114,18 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
                     showErrors={showErrors}
                 />
             ))}
-            <button onClick={onClickHandler} className='login-form__input-block-button' type='button'>{buttonText}</button>
-            <Link to={link} className='login-form__input-block-link' >{linkText}</Link>
+
+            <button onClick={onClickHandler}
+                className='login-form__input-block-button'
+                type='button'>{buttonText}
+            </button>
+
+            <Link
+                to={link}
+                className='login-form__input-block-link' >
+                {linkText}
+            </Link>
+
         </form>
     );
 }
