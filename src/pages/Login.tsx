@@ -7,9 +7,8 @@ import { useHistory } from 'react-router-dom';
 
 import { addUserToStore } from '../redux/actions/addUserToStore';
 
-interface IDataUser {
 
-}
+
 interface ILogin {
     isSameLoginPassword: (formData: any, userData: any) => boolean,
     dispatch: (obj: object) => void,
@@ -24,7 +23,7 @@ const Login: React.FC<ILogin> = () => {
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ dataBase }: { [name: string]: any }) => dataBase.users[0] ? dataBase.users[0] : { login: '' })
+    const usersFromRedux = useSelector(({ usersDataBase }: { [name: string]: any }) => usersDataBase.users[0] ? usersDataBase.users[0] : { login: '' })
     const history = useHistory()
 
     // FUNCTIONS=================================
@@ -42,12 +41,13 @@ const Login: React.FC<ILogin> = () => {
 
 
     const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
-        const dataFromLocalStorage: any = localStorage.getItem('users')
-        const userData = JSON.parse(dataFromLocalStorage)
+        const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
+        const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
 
-        if (isSameLoginPasswordRedux(formData, usersFromRedux)) {
-            dispatch(addUserToStore(userData))
+        if (isSameLoginPasswordRedux(formData, usersFromRedux) || isSameLoginPasswordLocalStorage(formData, userDataFromLocalStorage)) {
+            dispatch(addUserToStore(formData))
             history.push('/products')
+            localStorage.setItem('auth', 'true')
             setErrorSingUp('')
             return
         }
@@ -62,7 +62,7 @@ const Login: React.FC<ILogin> = () => {
             {errorSingUp !== ''
                 ? <span style={{
                     position: 'absolute',
-                    top: "182px",
+                    top: "95px",
                     textAlign: 'center',
                     width: '100%',
                     padding: '10px',

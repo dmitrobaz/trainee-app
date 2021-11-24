@@ -17,7 +17,12 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
 }
-
+a {
+    text-decoration: none;
+}
+rect {
+    margin-bottom: 50px;
+}
 body {
     background-color: $BGC_BODY;
 }
@@ -41,6 +46,35 @@ body {
         &:hover {
             background-color: rgb(255, 199, 199);
             border-radius: 5px;
+        }
+    }
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $BGC_HEADER;
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px;
+    a {
+        color: #000;
+    }
+    nav {
+        width: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    button,
+    a {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 10px;
+        transition: 0.2s ease-in;
+        border-radius: 5px;
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.116);
         }
     }
 }

@@ -5,14 +5,13 @@ const MyLoader = () => (
   <ContentLoader
     rtl
     speed={2}
-    width={234}
-    height={195}
-    viewBox="0 0 234 195"
+    width={220}
+    height={335}
+    viewBox="0 0 220 335"
     backgroundColor="#ffffff"
     foregroundColor="#ebebeb"
   >
-    <rect style={{ borderRadius: "15px" }} x="0" y="0" rx="0" ry="0" width="195" height="234" />
+    <rect x="5" y="5" rx="10" ry="10" width="210" height="315" />
   </ContentLoader>
 )
-
 export default MyLoader

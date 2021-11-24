@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux';
 
-import { dataBase } from './dataBase';
+import { usersDataBase } from './usersDataBase';
+import { itemDataBase } from './itemDataBase';
+
 
 
 
 
 const rootReducer = combineReducers({
-    dataBase
+    usersDataBase,
+    itemDataBase
 })
 
 export default rootReducer;

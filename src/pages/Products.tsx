@@ -3,40 +3,40 @@ import axios from 'axios';
 
 
 import { MyLoader, ProductCard } from '../components';
+import { setItemsToStore, axiosItems } from '../redux/actions/setItemsToSore';
+import { useDispatch, useSelector } from 'react-redux';
+import { itemDataBase } from "../redux/reduces/itemDataBase";
+import store from '../redux/store';
+
+import { Link } from 'react-router-dom';
+import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
+
 
 const Products: React.FC = () => {
-    const [isLoaded, setIsLoaded] = useState<any>({ people: false, starships: false })
+    const [statusRequst, setStatusRequest] = useState(false)
+    
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-
-        axios.get('https://swapi.dev/api/people').then(({ data }) => {
-            localStorage.setItem('peopleData', JSON.stringify(data))
-            setIsLoaded((prevProps: any) => ({ ...prevProps, people: true }))
-        })
-
-        axios.get('https://swapi.dev/api/starships').then(({ data }) => {
-            localStorage.setItem('starShips', JSON.stringify(data))
-            setIsLoaded((prevProps: any) => ({ ...prevProps, starships: true }))
-        })
-
-    }, [])
+    useEffect(() => { dispatch(axiosItems()) }, [])
 
 
-    const peopleDataLocalStorage: any = localStorage.getItem('peopleData')
-    const peopleData = JSON.parse(peopleDataLocalStorage)
+    const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
 
-    const starShipsDataLocalStorage: any = localStorage.getItem('starShips')
-    const starShipsData = JSON.parse(starShipsDataLocalStorage)
-
+    localStorage.setItem("itemData", JSON.stringify(itemsDataFromRedux))
 
     return (
         <main className='product'>
-            <h1 className="product-title">Product</h1>
-            <section className='product-wrapper'>
-                {(isLoaded.people && isLoaded.starships)
+            <header >
+                <h1>Star ships</h1>
+                <nav>
+                    <button ><FiSquare /></button>
+                </nav>
+            </header>
+            <section className='product-wrapper-main'>
+                {(itemsDataFromRedux.isLoaded.people && itemsDataFromRedux.isLoaded.starships)
                     ? (<div style={{ all: "inherit" }}>
-                        <ProductCard itemCount={peopleData.count} itemSubtitle={'People'} link="/products/people" />
-                        <ProductCard itemCount={starShipsData.count} itemSubtitle={'Star ships'} link="/products/starships" />
+                        <ProductCard itemCount={itemsDataFromRedux.people.data.count} itemSubtitle={'People'} link="/products/people" />
+                        <ProductCard itemCount={itemsDataFromRedux.starships.data.count} itemSubtitle={'Star ships'} link="/products/starships" />
                     </div>)
                     : Array(2).fill(0).map((_, index) => <MyLoader key={index} />)}
 

@@ -2,7 +2,18 @@
 
 .product-wrapper {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 100%;
+}
+.product-wrapper-list {
+    display: flex;
+    flex-direction: column;
+}
+.product-wrapper-main {
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     margin: 0 auto;
     width: 100%;
@@ -21,12 +32,69 @@
         background-color: $BGC_BUTTON;
         border-radius: 15px 15px 0 0;
     }
-    &__item {
-        margin-bottom: 15px;
+    &__item-main {
+        margin: 15px 20px 15px 20px;
         text-decoration: none;
 
         &-content {
-            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background-color: $BGC_INPUT;
+            border-radius: 5px;
+            transition: 0.2s ease-in;
+            width: 210px;
+            height: 290px;
+
+            &:hover {
+                background-color: #e7e0a4;
+            }
+        }
+        &-title {
+            font-weight: normal;
+        }
+        &-subtitle {
+            text-align: center;
+            font-weight: normal;
+
+            color: #000;
+        }
+        &-title {
+            color: rgb(134, 134, 134);
+        }
+        &-count {
+            text-align: center;
+            color: #000;
+            font-size: 4em;
+        }
+    }
+    &__item {
+        margin: 15px 20px 15px 20px;
+        text-decoration: none;
+        &-descr {
+            color: gray;
+        }
+        &-descr-list {
+            color: gray;
+            margin-left: 20px;
+        }
+        &-content {
+            padding: 30px;
+            background-color: $BGC_INPUT;
+            border-radius: 5px;
+            transition: 0.2s ease-in;
+            width: 210px;
+            height: 330px;
+
+            &:hover {
+                background-color: #e7e0a4;
+            }
+        }
+        &-content-list {
+            display: flex;
+            padding: 30px;
             background-color: $BGC_INPUT;
             border-radius: 5px;
             transition: 0.2s ease-in;
