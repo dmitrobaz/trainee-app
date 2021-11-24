@@ -5,8 +5,10 @@ const Main: React.FC = () => {
 
     return (
         <div className='main-page'>
-            <h1>Main page</h1>
-            <Link to="/login">Log in</Link>
+            <h1>Naviagation page</h1>
+            <Link to="/registration">Registration</Link>
+            <Link to="/login">Login</Link>
+
         </div>
     );
 }

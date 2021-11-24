@@ -10,8 +10,9 @@ interface IComponentProps {
     buttonText: string,
     config: Array<{ [name: string]: any }>,
     link: string,
-    data?: any,
-    setData?: any
+    takeData?: any,
+    errorSingUp?: any
+
 }
 
 interface IFormState {
@@ -22,7 +23,7 @@ interface IinputErrors {
 }
 
 
-const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, link, buttonText, setData }) => {
+const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, link, buttonText, takeData, errorSingUp }) => {
 
 
     // STATES=======================================
@@ -39,19 +40,19 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
     // State to indicate if the form is valid and ready to submit data to Redux
     const [validForm, setValidForm] = useState<boolean>(false)
 
+    const [mouseClick, setMouseClick] = useState<boolean>(false)
+
+
     // FUNCTIONS======================================
 
     // A function that returns true if there are no errors in the error state
-    const isValidForm: () => boolean = () => Object.keys(inputErrors).some(error => inputErrors[error] === '')
+    const isValidForm: () => boolean = () => Object.keys(inputErrors).every(error => inputErrors[error] === '')
 
     // HOOKS==========================================
 
-    useEffect(() => {
+    useEffect(() => (validForm && takeData(formState)), [validForm, mouseClick])
 
-        setValidForm(isValidForm)
-        validForm ? setData(formState) : console.log('form not valid')
-
-    }, [inputErrors])
+    useEffect(() => { (Object.keys(inputErrors).length > 0 && setValidForm(isValidForm)) }, [inputErrors])
 
     // HANDLERS=======================================
 
@@ -63,6 +64,8 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
     const onClickHandler = () => {
 
         config.forEach(itemConfig => validationForm(itemConfig.name, formState[itemConfig.name], itemConfig.validation))
+
+        setMouseClick(!mouseClick)
 
         setShowErrors(true)
 
@@ -78,24 +81,27 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
         // If not empty starts validation using the validation type(validationsRule) from the config
         if (utils.selectValidationType(validationsRule, stateValue, stateKey)) {
             setInputErrors((prevProps) => ({ ...prevProps, [stateKey]: `Incorrect ${[stateKey]}` }))
-
-        } else {
-            // Сhecks if there is a key 'repassword' in the config and password is equal to a repassword
-            if ((stateKey === 'password') && (stateValue !== formState.repassword) && (config.some(item => Object.values(item).includes('repassword')))) {
-                setInputErrors((prevProps) => ({ ...prevProps, [stateKey]: `Passwords are not same` }))
-
-            } else {
-                // If all validations are passed then clears inputErrors state
-                setInputErrors((prevProps) => ({ ...prevProps, [stateKey]: '' }))
-
-            }
+            return
         }
+        // Сhecks if there is a key 'repassword' in the config and password is equal to a repassword
+        if ((stateKey === 'password') && (stateValue !== formState.repassword) && (config.some(item => Object.values(item).includes('repassword')))) {
+            setInputErrors((prevProps) => ({ ...prevProps, [stateKey]: `Passwords are not same` }))
+            return
+        }
+        // If all validations are passed then clears inputErrors state
+        setInputErrors((prevProps) => ({ ...prevProps, [stateKey]: '' }))
+        return
     }
+
+
 
 
     return (
         <form className='login-form'>
-            <h1 className='login-form__title'>{formTitle}</h1>
+            <h1 className='login-form__title'>
+                {formTitle}
+            </h1>
+
             {config.map((item, id) => (
                 <Input
                     onChange={onChangeHandler}
@@ -108,8 +114,18 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
                     showErrors={showErrors}
                 />
             ))}
-            <button onClick={onClickHandler} className='login-form__input-block-button' type='button'>{buttonText}</button>
-            <Link to={link} className='login-form__input-block-link' >{linkText}</Link>
+
+            <button onClick={onClickHandler}
+                className='login-form__input-block-button'
+                type='button'>{buttonText}
+            </button>
+
+            <Link
+                to={link}
+                className='login-form__input-block-link' >
+                {linkText}
+            </Link>
+
         </form>
     );
 }
