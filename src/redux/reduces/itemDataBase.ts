@@ -1,6 +1,6 @@
 const initState: any = {
-    items: [],
-    isLoaded: { people: false, starships: false }
+    people: {},
+    starships: {}
 }
 
 export const itemDataBase = (state = initState, action: any) => {
@@ -8,7 +8,7 @@ export const itemDataBase = (state = initState, action: any) => {
         case ('SET_ITEMS'):
             const type = action.payload.type
             const data = action.payload.data
-            return { ...state, [type]: { ...state.items, data }, isLoaded: { ...state.isLoaded, [type]: true } }
+            return { ...state, [type]: { ...state.items, data } }
         default: return state;
     }
 }

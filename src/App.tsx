@@ -22,17 +22,17 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="container">
-        <Switch>
-          <Route path="/" component={Navigation} exact />
-          <Route path="/login" component={Login} exact />
-          <Route path="/registration" component={Registration} exact />
-          {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
-          <Route path="/products" component={Products} exact />
-          <Route path="/products/people" component={Peolpe} exact />
-          <Route path="/products/starships" component={StarShip} exact />
-        </Switch>
-      </div>
+
+      <Switch>
+        <Route path="/" component={Navigation} exact />
+        <Route path="/login" component={Login} exact />
+        <Route path="/registration" component={Registration} exact />
+        {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
+        <Route path="/products" component={Products} exact />
+        <Route path="/products/people" component={Peolpe} exact />
+        <Route path="/products/starships" component={StarShip} exact />
+      </Switch>
+
     </div>
   );
 }
