@@ -6,7 +6,7 @@ import { MyLoader, ProductCard } from '../components';
 import { axiosPeopleDataRequest, axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FiSquare} from "react-icons/fi";
+import { FiSquare } from "react-icons/fi";
 
 
 const Products: React.FC = () => {
@@ -26,25 +26,29 @@ const Products: React.FC = () => {
 
     const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
 
+
     return (
-        <main className='product'>
-            <header >
-                <h1>Star ships</h1>
-                <nav>
-                    <button ><FiSquare /></button>
-                </nav>
+        <div className='product'>
+            <header>
+                <h1>Products</h1>
             </header>
-            <section className='product-wrapper-main'>
-                {statusRequst
-                    ? (<div style={{ all: "inherit" }}>
-                        <ProductCard itemCount={itemsDataFromRedux.people.data.count} itemSubtitle={'People'} link="/products/people" />
-                        <ProductCard itemCount={itemsDataFromRedux.starships.data.count} itemSubtitle={'Star ships'} link="/products/starships" />
-                    </div>)
-                    : Array(2).fill(0).map((_, index) => <MyLoader key={index} />)}
 
-            </section>
-
-        </main>
+            <main className='product-wrapper-main'>
+                <ul>
+                    {statusRequst
+                        ? Object.keys(itemsDataFromRedux).map((item: any, index: number) =>
+                            <ProductCard
+                                itemCount={itemsDataFromRedux[item].data.count}
+                                itemSubtitle={`${item[0].toUpperCase()}${item.slice(1)}`}
+                                link={`/products/${item}`}
+                                key={index} />)
+                        : Array(2).map((_, index) =>
+                            <MyLoader
+                                key={index} />)
+                    }
+                </ul>
+            </main>
+        </div>
     );
 };
 

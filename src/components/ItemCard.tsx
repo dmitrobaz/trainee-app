@@ -5,39 +5,48 @@ import { Link } from 'react-router-dom';
 interface IItemCard {
     typeCard: string,
     itemSubtitle?: string,
-    link?: string,
+    link: string,
     img?: string
     descr: any,
     styleCard?: boolean
 }
 
 
-const ItemCard: React.FC<IItemCard> = ({ itemSubtitle, link, descr, img, typeCard, styleCard }) => {
+const ItemCard: React.FC<IItemCard> = ({ link, descr, img, typeCard, styleCard }) => {
     return (
-        <Link to={link} className='product__item'>
+        <li className='product__item'>
+            <Link to={link} ></Link >
 
             {typeCard === 'people'
                 ? <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
-                    <img src={img} alt="Item img" />
-                    <div className={styleCard ? 'product__item-descr-list' : ''}>
-                        <p className="product__item-descr">{`Name: ${descr.name}`}</p>
-                        <p className="product__item-descr">{`Gender: ${descr.gender}`}</p>
-                        <p className="product__item-descr">{`Height: ${descr.height}`}</p>
-                        <p className="product__item-descr">{`Mass: ${descr.mass}`}</p>
-                        <p className="product__item-descr">{`Skin color: ${descr.skin_color}`}</p>
+                    <p>
+                        <img src={img} alt="Star Wars character image" />
+                    </p>
+                    <div>
+                        <ul className={styleCard ? 'product__item-descr-list' : ''}>
+                            <li className="product__item-descr">{`Name: ${descr.name}`}</li>
+                            <li className="product__item-descr">{`Gender: ${descr.gender}`}</li>
+                            <li className="product__item-descr">{`Height: ${descr.height}`}</li>
+                            <li className="product__item-descr">{`Mass: ${descr.mass}`}</li>
+                            <li className="product__item-descr">{`Skin color: ${descr.skin_color}`}</li>
+                        </ul>
                     </div>
 
                 </div>
                 : <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
-                    <img src={img} alt="Item img" />
-                    <div className={styleCard ? 'product__item-descr-list' : ''}>
-                        <p className="product__item-descr">{`Name: ${descr.name}`}</p>
-                        <p className="product__item-descr">{`Model: ${descr.model}`}</p>
-                        <p className="product__item-descr">{`Cost: ${descr.cost_in_credits} credits`}</p>
-
+                    <p>
+                        <img src={img} alt="Space ship image" />
+                    </p>
+                    <div>
+                        <h4>{`${descr.name}`}</h4>
+                        <ul className={styleCard ? 'product__item-descr-list' : ''}>
+                            <li className="product__item-descr">{`Model: ${descr.model}`}</li>
+                            <li className="product__item-descr">{`Cost: ${descr.cost_in_credits} credits`}</li>
+                        </ul>
                     </div>
+
                 </div>}
-        </Link >
+        </li>
     );
 };
 

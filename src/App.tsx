@@ -12,28 +12,24 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (auth) {
-      console.log('1');
 
       setIsAuthenticated(true)
+
     }
   })
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   return (
-    <div className="App">
-
-      <Switch>
-        <Route path="/" component={Navigation} exact />
-        <Route path="/login" component={Login} exact />
-        <Route path="/registration" component={Registration} exact />
-        {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
-        <Route path="/products" component={Products} exact />
-        <Route path="/products/people" component={Peolpe} exact />
-        <Route path="/products/starships" component={StarShip} exact />
-      </Switch>
-
-    </div>
+    <Switch>
+      <Route path="/" component={Navigation} exact />
+      <Route path="/login" component={Login} exact />
+      <Route path="/registration" component={Registration} exact />
+      {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
+      <Route path="/products" component={Products} exact />
+      <Route path="/products/people" component={Peolpe} />
+      <Route path="/products/starships" component={StarShip} />
+    </Switch>
   );
 }
 

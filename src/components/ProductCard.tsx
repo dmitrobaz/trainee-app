@@ -12,16 +12,16 @@ interface IProductCartProps {
 
 const ProductCard: React.FC<IProductCartProps> = ({ itemCount, itemSubtitle, link }) => {
 
-
-
     return (
-        <Link to={link} className='product__item-main'>
+        <li className='product__item-main'>
+            <Link to={link} ></Link>
             <div className="product__item-main-content">
                 <h3 className="product__item-main-title">Total count:</h3>
-                <h2 className="product__item-main-count">{itemCount}</h2>
+                <span className="product__item-main-count">{itemCount}</span>
             </div>
             <h3 className="product__item-main-subtitle">{itemSubtitle}</h3>
-        </Link>
+
+        </li>
     );
 };
 

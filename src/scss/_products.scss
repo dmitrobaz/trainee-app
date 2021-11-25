@@ -1,22 +1,29 @@
 @import "./vars";
 
 .product-wrapper {
+    &-list {
+        display: flex;
+        flex-wrap: wrap;
+        ul {
+            width: 100%;
+        }
+    }
+}
+.flex-wrap {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    margin: 0 auto;
-    width: 100%;
 }
-.product-wrapper-list {
-    display: flex;
-    flex-direction: column;
-}
+
 .product-wrapper-main {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     margin: 0 auto;
     width: 100%;
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 .product {
@@ -35,6 +42,20 @@
     &__item-main {
         margin: 15px 20px 15px 20px;
         text-decoration: none;
+        a {
+            display: block;
+            content: "";
+            width: 210px;
+            height: 290px;
+            z-index: 1;
+            position: absolute;
+            transition: 0.2s ease-in;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: #a4c7e77a;
+            }
+        }
 
         &-content {
             display: flex;
@@ -47,6 +68,11 @@
             transition: 0.2s ease-in;
             width: 210px;
             height: 290px;
+            position: relative;
+            ul {
+                display: flex;
+                flex-direction: column;
+            }
 
             &:hover {
                 background-color: #e7e0a4;
@@ -73,14 +99,28 @@
     &__item {
         margin: 15px 20px 15px 20px;
         text-decoration: none;
+        a {
+            display: block;
+            content: "";
+            width: 210px;
+            height: 330px;
+            z-index: 1;
+            position: absolute;
+            transition: 0.2s ease-in;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: #a4c7e77a;
+            }
+        }
         &-descr {
             color: gray;
         }
         &-descr-list {
             color: gray;
-            margin-left: 20px;
         }
         &-content {
+            position: relative;
             padding: 30px;
             background-color: $BGC_INPUT;
             border-radius: 5px;
@@ -98,7 +138,9 @@
             background-color: $BGC_INPUT;
             border-radius: 5px;
             transition: 0.2s ease-in;
-
+            div {
+                margin-left: 20px;
+            }
             &:hover {
                 background-color: #e7e0a4;
             }
