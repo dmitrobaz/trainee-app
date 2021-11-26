@@ -1,4 +1,3 @@
-import * as validation from '../utils';
 
 export const registConfig = [
     { name: 'email', placeholder: 'Email', type: 'email', validation: { type: 'isRightEmail' } },

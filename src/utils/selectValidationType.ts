@@ -1,14 +1,14 @@
 import * as validator from "./index";
 
-interface IConfigProps {
-    type?: string,
-    name?: string,
-    maxLength?: number,
-    minLength?: number,
-    validation?: any,
-    password?: any,
-    repassword?: any
-}
+// interface IConfigProps {
+//     type?: string,
+//     name?: string,
+//     maxLength?: number,
+//     minLength?: number,
+//     validation?: any,
+//     password?: any,
+//     repassword?: any
+// }
 
 export const selectValidationType = (validationsRule: any, valueToCheck: any, stateKey: string) => {
  

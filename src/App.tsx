@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import { ItemCard } from './components';
+import { Route, Switch } from 'react-router-dom';
 import { Registration, Login, Navigation, Products, Peolpe, StarShip } from './pages';
 
 
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   const auth = localStorage.getItem('auth')
 
-
   useEffect(() => {
     if (auth) {
-
       setIsAuthenticated(true)
-
     }
   })
 
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   return (
     <Switch>
+      
       <Route path="/" component={Navigation} exact />
-      <Route path="/login" component={Login} exact />
-      <Route path="/registration" component={Registration} exact />
+      <Route path="/login" component={Login} />
+      <Route path="/registration" component={Registration} />
       {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
       <Route path="/products" component={Products} exact />
       <Route path="/products/people" component={Peolpe} />

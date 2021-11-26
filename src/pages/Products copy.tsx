@@ -33,7 +33,7 @@ const Products: React.FC = () => {
 
             <main className='product-wrapper-main'>
                 <ul>
-                    {statusRequst
+                    {false
                         ? Object.keys(itemsDataFromRedux).map((item: any, index: number) =>
                             <ProductCard
                                 itemCount={itemsDataFromRedux[item].data.count}

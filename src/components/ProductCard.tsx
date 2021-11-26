@@ -16,7 +16,7 @@ const ProductCard: React.FC<IProductCartProps> = ({ itemCount, itemSubtitle, lin
         <li className='product__item-main'>
             <Link to={link} ></Link>
             <div className="product__item-main-content">
-                <h3 className="product__item-main-title">Total count:</h3>
+                <p className="product__item-main-title">Total count:</p>
                 <span className="product__item-main-count">{itemCount}</span>
             </div>
             <h3 className="product__item-main-subtitle">{itemSubtitle}</h3>

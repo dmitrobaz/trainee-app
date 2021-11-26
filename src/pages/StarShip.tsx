@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
 import { Link } from 'react-router-dom';
-
-import { ItemCard } from '../components';
-
-import starship_150 from "../assets/img/starship_150.jpg";
-import starship1_150 from "../assets/img/starship1_150.jpg";
 import { useDispatch, useSelector } from 'react-redux';
-import { axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
-
 import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
 
-import { MyLoader } from "../components";
+import { ItemCard, MyLoader } from '../components';
+import { axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
 
+import { imagesStarShips } from '../assets/img';
 interface IStarShipCard {
     itemCount: number,
     itemSubtitle: string,
@@ -22,24 +16,26 @@ interface IStarShipCard {
 
 
 const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
-    const [active, setActive] = useState<boolean>(false)
+    const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleLisCard') || '{}') || false)
     const [statusRequst, setStatusRequest] = useState<boolean>(false)
-    const imgNames = [starship_150, starship1_150]
+
     const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        Promise.all([
-            dispatch(axiosStarShipsDataRequest())
-        ]).then(() => setStatusRequest(true))
+        localStorage.setItem('isStyleLisCard', JSON.stringify(view))
+    }, [view])
+
+    useEffect(() => {
+        if (!('data' in itemsDataFromRedux.starships)) {
+            Promise.all([
+                dispatch(axiosStarShipsDataRequest())
+            ]).then(() => setStatusRequest(true))
+            return
+        }
+        setStatusRequest(true)
+
     }, [])
-
-    const isStyleLisCard = () => localStorage.getItem('isStyleLisCard') === 'false' ? false : true
-
-    const clickHandler: () => any = () => {
-        localStorage.setItem('isStyleLisCard', `${!isStyleLisCard()}`)
-        setActive(!active)
-    }
 
     return (
         <div className='product'>
@@ -47,23 +43,23 @@ const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
                 <h1>Star ships</h1>
                 <div>
                     <Link to="/products"><FiArrowLeft /></Link>
-                    <button onClick={() => clickHandler()}>{isStyleLisCard() ? <FiSquare /> : <FiList />}</button>
+                    <button onClick={() => setView(!view)}>{view ? <FiSquare /> : <FiList />}</button>
                 </div>
             </header>
-            <main className={isStyleLisCard() ? 'product-wrapper-list' : 'product-wrapper'}>
-                <ul className={isStyleLisCard() ? '' : 'flex-wrap'}>
+            <main className='product-wrapper'>
+                <ul className={view ? 'style-list' : 'style-wrap'}>
                     {statusRequst
                         ? itemsDataFromRedux.starships.data.results.map((item: any, id: number) =>
                             <ItemCard
                                 typeCard='starships'
                                 descr={item}
-                                img={`${imgNames[Math.floor(Math.random() * imgNames.length)]}`}
+                                img={`${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`}
                                 key={id}
-                                styleCard={isStyleLisCard()}
+                                styleCard={view}
                                 link='/products'
                             />
                         )
-                        : Array(6).map((_, index) =>
+                        : Array(6).fill(0).map((_, index) =>
                             <MyLoader
                                 key={index} />)}
                 </ul>

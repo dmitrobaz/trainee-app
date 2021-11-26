@@ -37,13 +37,13 @@ const ItemCard: React.FC<IItemCard> = ({ link, descr, img, typeCard, styleCard }
                     <p>
                         <img src={img} alt="Space ship image" />
                     </p>
-                    <div>
+                    <section>
                         <h4>{`${descr.name}`}</h4>
                         <ul className={styleCard ? 'product__item-descr-list' : ''}>
                             <li className="product__item-descr">{`Model: ${descr.model}`}</li>
                             <li className="product__item-descr">{`Cost: ${descr.cost_in_credits} credits`}</li>
                         </ul>
-                    </div>
+                    </section>
 
                 </div>}
         </li>
