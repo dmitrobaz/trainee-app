@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 
 import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
 
-import { ItemCard, MyLoader } from "../components";
+import { Header, ItemCard, MainWrapper, MyLoader } from "../components";
 import { axiosPeopleDataRequest } from '../redux/actions/setItemsToSore';
 
 import { imagesPeople } from '../assets/img';
+import PeopleCard from '../components/PeopleCard';
 
 
 
@@ -35,37 +36,30 @@ const Peolpe: React.FC = () => {
 
     }, [])
 
-    return (
-        <div className='product'>
-            <header >
-                <h1>People</h1>
-                <div>
-                    <Link to="/products"><FiArrowLeft /></Link>
-                    <button onClick={() => setView(!view)}>{view ? <FiSquare /> : <FiList />}</button>
-                </div>
-            </header>
+    const clickHandler = () => {
+        setView(!view)
+    }
 
-            <main className='product-wrapper'>
+    return (
+        <>
+            <Header />
+            <MainWrapper title='People' onClick={clickHandler} >
                 <ul className={view ? 'style-list' : 'style-wrap'}>
                     {statusRequst
                         ? itemsDataFromRedux.people.data.results.map((item: any, id: number) =>
-                            <ItemCard
-                                typeCard='people'
+                            <PeopleCard
                                 descr={item}
                                 img={`${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`}
-                                key={id}
                                 styleCard={view}
-                                link='/products'
-
+                                key={id}
                             />)
                         : Array(6).fill(0).map((_, index) =>
                             <MyLoader
                                 key={index} />)
                     }
                 </ul>
-            </main>
-
-        </div>
+            </MainWrapper>
+        </>
     );
 };
 

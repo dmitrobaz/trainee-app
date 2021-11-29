@@ -15,16 +15,13 @@
     .product__item {
         a {
             width: 210px;
-            height: 330px;
+            height: 370px;
         }
     }
 }
 .style-list {
     .product__item {
-        a {
-            width: 87%;
-            height: 28%;
-        }
+        cursor: pointer;
     }
 }
 .product-wrapper-main {
@@ -43,7 +40,7 @@
     display: flex;
     flex-direction: column;
     background-color: $BGC_CONTAINER;
-    margin: 50px auto;
+    margin: 10px auto;
     width: 90%;
     border-radius: 15px;
     &-title {
@@ -55,18 +52,19 @@
     &__item-main {
         margin: 15px 20px 15px 20px;
         text-decoration: none;
+
         a {
             display: block;
             content: "";
-            width: 210px;
-            height: 290px;
+            width: 370px;
+            height: 215px;
             z-index: 1;
             position: absolute;
-            transition: 0.2s ease-in;
             border-radius: 5px;
+            transition: 0.2s ease-in;
 
             &:hover {
-                background-color: #a4c7e77a;
+                background-color: $HOVER_ITEM_CARD;
             }
         }
 
@@ -76,11 +74,12 @@
             align-items: center;
             justify-content: center;
             padding: 30px;
-            background-color: $BGC_INPUT;
+            // background-color: $BORDER_INPUT_ERROR;
+            border: 1px solid $BORDER_COLOR;
             border-radius: 5px;
             transition: 0.2s ease-in;
-            width: 210px;
-            height: 290px;
+            width: 370px;
+            height: 215px;
             position: relative;
             ul {
                 display: flex;
@@ -112,18 +111,27 @@
     &__item {
         margin: 15px 20px 15px 20px;
         text-decoration: none;
+        &-button {
+            cursor: pointer;
+            position: absolute;
+            margin: 5px 0 10px 0;
+            z-index: 10;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: $BGC_HEADER;
+        }
         a {
             display: block;
             content: "";
-
-            z-index: 1;
+            z-index: 3;
             position: absolute;
             transition: 0.2s ease-in;
             border-radius: 5px;
 
-            &:hover {
-                background-color: #a4c7e77a;
-            }
+            // &:hover {
+            //     background-color: $HOVER_ITEM_CARD;
+            // }
         }
         &-descr {
             color: gray;
@@ -134,29 +142,32 @@
         &-content {
             position: relative;
             padding: 30px;
-            background-color: $BGC_INPUT;
+            border: 1px solid $BORDER_COLOR;
             border-radius: 5px;
             transition: 0.2s ease-in;
             width: 210px;
-            height: 330px;
+            height: 370px;
 
             &:hover {
+                & ~ .product__item-content {
+                }
                 background-color: #e7e0a4;
             }
         }
         &-content-list {
             display: flex;
             padding: 30px;
-            background-color: $BGC_INPUT;
+            border: 1px solid $BORDER_COLOR;
+
             border-radius: 5px;
             transition: 0.2s ease-in;
             div,
             section {
                 margin-left: 20px;
             }
-            &:hover {
-                background-color: #e7e0a4;
-            }
+            // &:hover {
+            //     background-color: $HOVER_ITEM_CARD;
+            // }
         }
         &-title {
             font-weight: normal;

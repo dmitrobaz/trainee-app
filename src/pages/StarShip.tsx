@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
 
-import { ItemCard, MyLoader } from '../components';
+import { Header, ItemCard, MainWrapper, MyLoader, StarShipsCard } from '../components';
 import { axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
 
 import { imagesStarShips } from '../assets/img';
+
+
 interface IStarShipCard {
     itemCount: number,
     itemSubtitle: string,
@@ -37,34 +39,30 @@ const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
 
     }, [])
 
+    const clickHandler = () => {
+        setView(!view)
+    }
+
     return (
-        <div className='product'>
-            <header >
-                <h1>Star ships</h1>
-                <div>
-                    <Link to="/products"><FiArrowLeft /></Link>
-                    <button onClick={() => setView(!view)}>{view ? <FiSquare /> : <FiList />}</button>
-                </div>
-            </header>
-            <main className='product-wrapper'>
+        <>
+            <Header />
+            <MainWrapper title='Star ships' onClick={clickHandler} >
                 <ul className={view ? 'style-list' : 'style-wrap'}>
                     {statusRequst
                         ? itemsDataFromRedux.starships.data.results.map((item: any, id: number) =>
-                            <ItemCard
-                                typeCard='starships'
+                            <StarShipsCard
                                 descr={item}
                                 img={`${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`}
-                                key={id}
                                 styleCard={view}
-                                link='/products'
+                                key={id}
                             />
                         )
                         : Array(6).fill(0).map((_, index) =>
                             <MyLoader
                                 key={index} />)}
                 </ul>
-            </main>
-        </div>
+            </MainWrapper>
+        </>
     );
 };
 

@@ -1,0 +1,8 @@
+@import "./vars";
+@import "./button";
+.header {
+    margin: 1% auto;
+    width: 90%;
+    border-radius: 10px;
+    background-color: $BGC_HEADER;
+}

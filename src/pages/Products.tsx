@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MyLoader, ProductCard } from '../components';
+import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
 import { axiosPeopleDataRequest, axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
 
 
@@ -22,16 +22,10 @@ const Products: React.FC = () => {
         setStatusRequest(true)
     }, [])
 
-
-
-
     return (
-        <div className='product'>
-            <header>
-                <h1>Products</h1>
-            </header>
-
-            <main className='product-wrapper-main'>
+        <>
+            <Header />
+            <MainWrapper title='Products' classContent='product-wrapper-main'>
                 <ul>
                     {statusRequst
                         ? Object.keys(itemsDataFromRedux).map((item: any, index: number) =>
@@ -45,8 +39,8 @@ const Products: React.FC = () => {
                                 key={index} />)
                     }
                 </ul>
-            </main>
-        </div>
+            </MainWrapper>
+        </>
     );
 };
 

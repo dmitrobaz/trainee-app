@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormBuilder } from '../components';
+import { FormBuilder, MainWrapper } from '../components';
 import { loginConfig as formConfig } from '../config/configForLoginForm';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -99,15 +99,21 @@ const Login: React.FC<ILogin> = () => {
                     }}>{successfulLogIn}</span>
                     : ""
             }
-            <FormBuilder
-                takeData={(obj: object) => takeDataFromFormBuilder(obj)}
-                config={formConfig}
-                buttonText="Login"
-                formTitle="Login"
-                linkText="Forgot password"
-                link="/registration"
-                errorSingUp={errorSingUp}
-            />
+            <MainWrapper title='Login' >
+
+                <FormBuilder
+                    takeData={(obj: object) => takeDataFromFormBuilder(obj)}
+                    config={formConfig}
+                    buttonText="Login"
+                    formTitle="Login"
+                    linkText="Forgot password"
+                    link="/registration"
+                    errorSingUp={errorSingUp}
+                />
+
+            </MainWrapper>
+
+
 
         </div >
     );
