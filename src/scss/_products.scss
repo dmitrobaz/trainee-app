@@ -43,6 +43,9 @@
     margin: 10px auto;
     width: 90%;
     border-radius: 15px;
+    &-header {
+        min-height: 58px;
+    }
     &-title {
         padding: 10px;
         margin-bottom: 20px;
@@ -128,6 +131,8 @@
             position: absolute;
             transition: 0.2s ease-in;
             border-radius: 5px;
+            width: 80%;
+            height: 216px;
 
             // &:hover {
             //     background-color: $HOVER_ITEM_CARD;

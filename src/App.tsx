@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Registration, Login, Navigation, Products, Peolpe, StarShip, Test, Cart, CardPage } from './pages';
 
 
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const auth: any = localStorage.getItem('auth')
+  const isAuth = JSON.parse(auth)
 
-  const auth = localStorage.getItem('auth')
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(isAuth)
 
-  useEffect(() => {
-    if (auth) {
-      setIsAuthenticated(true)
-    }
-  })
+
+  console.log(isAuth);
+
+
+  // useEffect(() => {
+  //   if (auth) {
+  //     setIsAuthenticated(true)
+  //   }
+  // })
 
 
   return (
@@ -25,7 +30,7 @@ const App: React.FC = () => {
       <Route path="/" component={Navigation} exact />
       <Route path="/login" component={Login} />
       <Route path="/registration" component={Registration} />
-      {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
+      {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
       <Route path="/products" component={Products} exact />
       <Route path="/products/people" component={Peolpe} exact />
       <Route path="/products/people/card" component={CardPage} />

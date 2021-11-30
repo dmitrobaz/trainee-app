@@ -43,7 +43,7 @@ const Peolpe: React.FC = () => {
     return (
         <>
             <Header />
-            <MainWrapper title='People' onClick={clickHandler} >
+            <MainWrapper title='People' onClick={clickHandler} linkArrowLeft='/products' >
                 <ul className={view ? 'style-list' : 'style-wrap'}>
                     {statusRequst
                         ? itemsDataFromRedux.people.data.results.map((item: any, id: number) =>

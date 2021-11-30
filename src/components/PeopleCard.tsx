@@ -23,7 +23,8 @@ const PeopleCard: React.FC<IPeopleCard> = ({ descr, img, styleCard }) => {
         <li className='product__item'>
             <Link to={{
                 pathname: "/products/people/card",
-                search: `?id=${descr.url && descr.url.split('/')[5]}`
+                search: `?req=${descr.url}`,
+                props: descr
             }}></Link >
 
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>

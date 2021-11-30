@@ -99,7 +99,7 @@ const Login: React.FC<ILogin> = () => {
                     }}>{successfulLogIn}</span>
                     : ""
             }
-            <MainWrapper title='Login' >
+            <MainWrapper >
 
                 <FormBuilder
                     takeData={(obj: object) => takeDataFromFormBuilder(obj)}

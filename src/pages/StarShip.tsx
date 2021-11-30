@@ -46,7 +46,7 @@ const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
     return (
         <>
             <Header />
-            <MainWrapper title='Star ships' onClick={clickHandler} >
+            <MainWrapper title='Star ships' onClick={clickHandler} linkArrowLeft='/products'>
                 <ul className={view ? 'style-list' : 'style-wrap'}>
                     {statusRequst
                         ? itemsDataFromRedux.starships.data.results.map((item: any, id: number) =>

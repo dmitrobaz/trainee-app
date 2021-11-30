@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { FormBuilder } from '../components';
+import { FormBuilder, MainWrapper } from '../components';
 import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
 import { useDispatch } from 'react-redux';
@@ -39,14 +39,16 @@ const Registration: React.FC<IRegProps> = () => {
     }
 
     return (
-        <FormBuilder
-            takeData={(obj: any) => takeDataFromFormBuilder(obj)}
-            config={formConfig}
-            buttonText="Register"
-            linkText="Member login"
-            link="/login"
-            formTitle="Registration"
-        />
+        <MainWrapper  >
+            <FormBuilder
+                takeData={(obj: any) => takeDataFromFormBuilder(obj)}
+                config={formConfig}
+                buttonText="Register"
+                linkText="Member login"
+                link="/login"
+                formTitle="Registration"
+            />
+        </MainWrapper>
     );
 }
 export default Registration;
