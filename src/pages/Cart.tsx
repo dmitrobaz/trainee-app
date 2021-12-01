@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Header, MainWrapper, ProductCard } from '../components';
-import { cart } from '../redux/reduces/applicationReduces/cart';
 
 const Cart = () => {
     const cartData = useSelector(({ cart }: any) => cart)

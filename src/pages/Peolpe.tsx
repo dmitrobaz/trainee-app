@@ -1,39 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
+import { Header,  MainWrapper, MyLoader,PeopleCard } from "../components";
 
-import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
-
-import { Header, ItemCard, MainWrapper, MyLoader } from "../components";
-import { axiosPeopleDataRequest } from '../redux/actions/setItemsToSore';
+import { getPeopleResponse } from '../redux/actions/getResponse';
 
 import { imagesPeople } from '../assets/img';
-import PeopleCard from '../components/PeopleCard';
 
 
 
 const Peolpe: React.FC = () => {
+    const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleListCard') || '{}') || false)
 
-    const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleLisCard') || '{}') || false)
-    const [statusRequst, setStatusRequest] = useState<boolean>(false)
-
-    const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
     const dispatch: any = useDispatch()
 
+    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
+    const peopleStore = {
+        data: responseStatesFromReduxStore.people.data,
+        pending: responseStatesFromReduxStore.people.pending,
+        error: responseStatesFromReduxStore.people.error
+    }
+
     useEffect(() => {
-        localStorage.setItem('isStyleLisCard', JSON.stringify(view))
+        localStorage.setItem('isStyleListCard', JSON.stringify(view))
     }, [view])
 
     useEffect(() => {
-        if (!('data' in itemsDataFromRedux.people)) {
-            Promise.all([
-                dispatch(axiosPeopleDataRequest())
-            ]).then(() => setStatusRequest(true))
-            return
-        }
-        setStatusRequest(true)
-
+        dispatch(getPeopleResponse.get())
     }, [])
 
     const clickHandler = () => {
@@ -45,8 +38,8 @@ const Peolpe: React.FC = () => {
             <Header />
             <MainWrapper title='People' onClick={clickHandler} linkArrowLeft='/products' >
                 <ul className={view ? 'style-list' : 'style-wrap'}>
-                    {statusRequst
-                        ? itemsDataFromRedux.people.data.results.map((item: any, id: number) =>
+                    {!peopleStore.pending
+                        ? peopleStore.data.results.map((item: any, id: number) =>
                             <PeopleCard
                                 descr={item}
                                 img={`${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`}

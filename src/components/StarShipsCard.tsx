@@ -4,37 +4,38 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addStarShipsToCart } from '../redux/actions/addStarShipsToCart';
 
+
+
 interface IStarShipsCard {
-    img?: string,
-    descr: any,
-    styleCard?: boolean
+    img: string,
+    currentCardData: {
+        [name: string]: any
+    },
+    styleCard: boolean
 }
 
-const StarShipsCard: React.FC<IStarShipsCard> = ({ descr, img, styleCard }) => {
+const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCard }) => {
     const dispatch = useDispatch()
 
     const clickHandler = () => {
-        const itemData = descr
-        const payload = { data: itemData, type: 'starships' }
-
-        dispatch(addStarShipsToCart(payload))
+        dispatch(addStarShipsToCart(currentCardData))
     }
     return (
         <li className='product__item'>
             <Link to={{
                 pathname: "/products/starships/card",
-                search: `?req=${descr.url}`,
-                props: descr
+                search: `?req=${currentCardData.url}`,
+                props: currentCardData
             }}></Link >
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
                 <p>
                     <img src={img} alt="Space ship image" />
                 </p>
                 <section>
-                    <h4>{`${descr.name}`}</h4>
-                    <ul className={styleCard ? 'product__item-descr-list' : ''}>
-                        <li className="product__item-descr">{`Model: ${descr.model}`}</li>
-                        <li className="product__item-descr">{`Cost: ${descr.cost_in_credits} credits`}</li>
+                    <h4>{`${currentCardData.name}`}</h4>
+                    <ul className={styleCard ? 'product__item-currentCardData-list' : ''}>
+                        <li className="product__item-currentCardData">{`Model: ${currentCardData.model}`}</li>
+                        <li className="product__item-currentCardData">{`Cost: ${currentCardData.cost_in_credits} credits`}</li>
                     </ul>
                     <button onClick={clickHandler} className="product__item-button">Add to cart</button>
 

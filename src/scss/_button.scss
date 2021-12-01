@@ -9,6 +9,15 @@
         cursor: pointer;
     }
     &-cart {
+        &__popup {
+            width: 170px;
+            height: 85px;
+            position: absolute;
+            background-color: white;
+            right: 68px;
+            top: 40px;
+            border-radius: 10px;
+        }
         display: flex;
         justify-content: space-between;
         min-height: 40px;

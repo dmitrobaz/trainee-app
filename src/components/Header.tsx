@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ButtonCart } from '.';
 
-const Header = () => {
+const Header: React.FC = () => {
+    // applicationStates contains key "users"  - all registered users and key "cart"- all added items to the cart.
+    const appDataStates = useSelector(({ applicationStates }: any) => applicationStates)
 
-    const totalCount = useSelector(({ cart }: any) => cart.people.length + cart.starships.length)
-    const peopleCount = useSelector(({ cart }: any) => cart.people.length)
-    const starShipsCount = useSelector(({ cart }: any) => cart.starships.length)
+    const peopleCount = appDataStates.cart.people.length
+    const starShipsCount = appDataStates.cart.starships.length
+    const totalItemCount = peopleCount + starShipsCount
 
     return (
         <header className="header">
@@ -18,9 +20,9 @@ const Header = () => {
                 </Link>
             </nav>
             <ButtonCart
-                totalCount={totalCount === 0 ? '' : totalCount}
-                peopleCount={peopleCount === 0 ? '' : peopleCount}
-                starShipsCount={starShipsCount === 0 ? '' : starShipsCount}
+                totalCount={totalItemCount}
+                peopleCount={peopleCount}
+                starShipsCount={starShipsCount}
             />
         </header>
     );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FiArrowLeft, FiList, FiLogOut, FiSquare } from 'react-icons/fi';
 
 import { Link } from 'react-router-dom';
-import { NavButton } from './';
+import { NavButtons } from '..';
 
 interface IMainProps {
     children?: any,
@@ -27,7 +27,7 @@ const MainWrapper: React.FC<IMainProps> = ({ children, title, classSection = 'pr
         <section className={classSection}>
             <header className="product-header">
                 <h1>{title}</h1>
-                <NavButton onClick={onClickNavButton} view={view} linkArrowLeft={linkArrowLeft} />
+                <NavButtons onClick={onClickNavButton} view={view} linkArrowLeft={linkArrowLeft} />
             </header>
             <main className={classContent}>
                 {children}

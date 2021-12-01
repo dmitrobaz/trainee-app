@@ -1,12 +1,14 @@
-// interface IActionProps {
-//     login: string,
-//     password: string,
-//     type: string,
-//     payload: string
-// }
+interface IInitState {
+    users: Array<any>,
+    cart: {
+        people: Array<any>,
+        starships: Array<any>
+    }
+
+}
 
 
-const initState: { [users: string]: any } = {
+const initState: IInitState = {
     users: [],
     cart: {
         people: [],
@@ -25,10 +27,10 @@ export const applicationStates = (state = initState, action: any) => {
                     users: [...state.users.filter((e: any) => e.login), action.payload]
                 }
             }
-        case 'ADD_PEOPLE_TO_CART':
-            return { ...state, cart: [...state.people, action.payload] }
-        case 'ADD_STAR_SHIP_TO_CART':
-            return { ...state, cart: [...state.starships, action.payload] }
+        case 'ADD_PEOPLE_ITEM_TO_CART':
+            return { ...state, cart: { ...state.cart, people: [...state.cart.people, action.payload] } }
+        case 'ADD_STAR_SHIP_ITEM_TO_CART':
+            return { ...state, cart: { ...state.cart, starships: [...state.cart.starships, action.payload] } }
         default: return state
     }
 }

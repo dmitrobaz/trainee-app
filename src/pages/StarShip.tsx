@@ -1,42 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FiList, FiSquare, FiArrowLeft } from "react-icons/fi";
 
-import { Header, ItemCard, MainWrapper, MyLoader, StarShipsCard } from '../components';
-import { axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
+import { Header, MainWrapper, MyLoader, StarShipsCard } from '../components';
+
+import { getStarShipsResponse } from '../redux/actions/getResponse';
 
 import { imagesStarShips } from '../assets/img';
 
 
-interface IStarShipCard {
-    itemCount: number,
-    itemSubtitle: string,
-    link: string,
-    img?: string
-}
+const StarShip: React.FC = () => {
+    const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleListCard') || '{}') || false)
 
-
-const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
-    const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleLisCard') || '{}') || false)
-    const [statusRequst, setStatusRequest] = useState<boolean>(false)
-
-    const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
     const dispatch = useDispatch()
 
+    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
+    const starShipsStore = {
+        data: responseStatesFromReduxStore.starships.data,
+        pending: responseStatesFromReduxStore.starships.pending,
+        error: responseStatesFromReduxStore.starships.error
+    }
+
     useEffect(() => {
-        localStorage.setItem('isStyleLisCard', JSON.stringify(view))
+        localStorage.setItem('isStyleListCard', JSON.stringify(view))
     }, [view])
 
     useEffect(() => {
-        if (!('data' in itemsDataFromRedux.starships)) {
-            Promise.all([
-                dispatch(axiosStarShipsDataRequest())
-            ]).then(() => setStatusRequest(true))
-            return
-        }
-        setStatusRequest(true)
-
+        dispatch(getStarShipsResponse.get())
     }, [])
 
     const clickHandler = () => {
@@ -48,10 +37,10 @@ const StarShip: React.FC<IStarShipCard> = ({ link, }) => {
             <Header />
             <MainWrapper title='Star ships' onClick={clickHandler} linkArrowLeft='/products'>
                 <ul className={view ? 'style-list' : 'style-wrap'}>
-                    {statusRequst
-                        ? itemsDataFromRedux.starships.data.results.map((item: any, id: number) =>
+                    {!starShipsStore.pending
+                        ? starShipsStore.data.results.map((item: any, id: number) =>
                             <StarShipsCard
-                                descr={item}
+                                currentCardData={item}
                                 img={`${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`}
                                 styleCard={view}
                                 key={id}

@@ -10,7 +10,7 @@ interface INavButtonProps {
 
 }
 
-const NavButton: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft }) => {
+const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft }) => {
     const history = useHistory()
     const location = useLocation()
     const logOut = () => {
@@ -41,4 +41,4 @@ const NavButton: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft }) 
     );
 };
 
-export default NavButton;
+export default NavButtons;
