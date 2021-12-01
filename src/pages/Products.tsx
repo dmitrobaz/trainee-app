@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
-import { axiosPeopleDataRequest, axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
+
+import { getPeopleResponse, getStarShipsResponse } from '../redux/actions/getResponse';
+
 
 
 const Products: React.FC = () => {
-    const [statusRequst, setStatusRequest] = useState<boolean>(false)
-
-    const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
     const dispatch = useDispatch()
 
+    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
+
+    const peopleStore = {
+        data: responseStatesFromReduxStore.people.data,
+        pending: responseStatesFromReduxStore.people.pending,
+        error: responseStatesFromReduxStore.people.error
+    }
+    const starShipsStore = {
+        data: responseStatesFromReduxStore.starships.data,
+        pending: responseStatesFromReduxStore.starships.pending,
+        error: responseStatesFromReduxStore.starships.error
+    }
+
     useEffect(() => {
-        if (!('data' in itemsDataFromRedux.people) || !('data' in itemsDataFromRedux.starships)) {
-            Promise.all([
-                dispatch(axiosPeopleDataRequest()),
-                dispatch(axiosStarShipsDataRequest())
-            ]).then(() => setStatusRequest(true))
-            return
-        }
-        setStatusRequest(true)
+        dispatch(getPeopleResponse.get())
+        dispatch(getStarShipsResponse.get())
     }, [])
 
     return (
@@ -27,13 +33,19 @@ const Products: React.FC = () => {
             <Header />
             <MainWrapper title='Products' classContent='product-wrapper-main'>
                 <ul>
-                    {statusRequst
-                        ? Object.keys(itemsDataFromRedux).map((item: any, index: number) =>
+                    {!peopleStore.pending && !starShipsStore.pending
+                        ? <>
                             <ProductCard
-                                itemCount={itemsDataFromRedux[item].data.count}
-                                itemSubtitle={`${item[0].toUpperCase()}${item.slice(1)}`}
-                                link={`/products/${item}`}
-                                key={index} />)
+                                itemCount={peopleStore.data.count}
+                                itemSubtitle='People'
+                                link={`/products/people`}
+                            />
+                            <ProductCard
+                                itemCount={starShipsStore.data.count}
+                                itemSubtitle='Star ships'
+                                link={`/products/starships`}
+                            />
+                        </>
                         : <MyLoader />
                     }
                 </ul>

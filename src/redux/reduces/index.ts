@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 
-import { usersDataBase } from './usersDataBase';
-import { itemDataBase } from './itemDataBase';
-import { cart } from './cart';
+import { usersDataBase } from './applicationReduces/usersDataBase';
+import { itemDataBase } from './requestsReduces/itemDataBase';
+import { cart } from './applicationReduces/cart';
+import { requestsStates } from './requestsReduces/requestsStates';
+
 
 
 
@@ -12,7 +14,8 @@ import { cart } from './cart';
 const rootReducer = combineReducers({
     usersDataBase,
     itemDataBase,
-    cart
+    cart,
+    requestsStates
 })
 
 export default rootReducer;
