@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FormBuilder } from '../components';
 import { loginConfig as formConfig } from '../config/configForLoginForm';
 
@@ -7,9 +7,8 @@ import { useHistory } from 'react-router-dom';
 
 import { addUserToStore } from '../redux/actions/addUserToStore';
 
-interface IDataUser {
 
-}
+
 interface ILogin {
     isSameLoginPassword: (formData: any, userData: any) => boolean,
     dispatch: (obj: object) => void,
@@ -21,55 +20,84 @@ const Login: React.FC<ILogin> = () => {
     // STATETS===================================
     // States for error when login not exist in local storage
     const [errorSingUp, setErrorSingUp] = useState<string>('')
+    const [successfulLogIn, setSuccessfulLogIn] = useState<string>('')
+
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ dataBase }: any) => dataBase.users[0])
+    const usersFromRedux = useSelector(({ usersDataBase }: { [name: string]: any }) => usersDataBase.users[0] ? usersDataBase.users[0] : { login: '' })
     const history = useHistory()
 
     // FUNCTIONS=================================
     // Check password and login from input states(formData) with data in local storage 
-    const isSameLoginPasswordLocalStorage =
+    const isSameLoginLocalStorage =
         (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
             (formData.login === localStorageData.login)
-            && (formData.password === localStorageData.password)
+
+    // const isSamePasswordLocalStorage =
+    //     (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
+    //         (formData.password === localStorageData.password)
 
     // Check password and login from input states(formData) with data in Redux storage 
-    const isSameLoginPasswordRedux =
+    const isSameLoginRedux =
         (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
             (formData.login === dataBase.login)
-            && (formData.password === dataBase.password)
+
+    // const isSamePasswordRedux =
+    //     (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
+    //         (formData.password === dataBase.password)
 
 
     const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
-        const dataFromLocalStorage: any = localStorage.getItem('users')
-        const userData = JSON.parse(dataFromLocalStorage)
+        const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
+        const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
 
-        if (isSameLoginPasswordRedux(formData, userData)) {
-            dispatch(addUserToStore(userData))
-            history.push('/')
-            setErrorSingUp('')
+        if (!userDataFromLocalStorage || (usersFromRedux.login === '')) {
+            setErrorSingUp('User with this login does not exist')
             return
         }
 
-        setErrorSingUp('User with this login does not exist');
+        if (isSameLoginRedux(formData, usersFromRedux) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
+            dispatch(addUserToStore(formData))
+            setSuccessfulLogIn('Successful log in')
+            setTimeout(() => history.push('/products'), 2000)
+            localStorage.setItem('auth', 'true')
+            return
+        }
+
+        setErrorSingUp('Wrong login');
 
 
     }
     return (
 
-        <div style={{ display: 'flex', position: 'relative' }}>
+        <div style={{
+            display: 'flex', position: 'relative', justifyContent: 'center'
+        }}>
             {errorSingUp !== ''
                 ? <span style={{
                     position: 'absolute',
-                    top: "182px",
+                    top: "95px",
                     textAlign: 'center',
-                    width: '100%',
+                    width: '52%',
                     padding: '10px',
                     borderRadius: '5px',
                     backgroundColor: '#ff7676',
                 }}>{errorSingUp}</span>
                 : ""
+            }
+            {
+                successfulLogIn !== ''
+                    ? <span style={{
+                        position: 'absolute',
+                        top: "95px",
+                        textAlign: 'center',
+                        width: '52%',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        backgroundColor: '#81ffb7',
+                    }}>{successfulLogIn}</span>
+                    : ""
             }
             <FormBuilder
                 takeData={(obj: object) => takeDataFromFormBuilder(obj)}

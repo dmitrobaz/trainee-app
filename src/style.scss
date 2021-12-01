@@ -1,47 +1,80 @@
 @import "./scss/login";
 @import "./scss/vars";
+@import "./scss/products";
 
-*{
-    padding:0;
-    margin:0;
-    list-style:none;
-    outline:none;
-    font-family:'Proxima Nova', Roboto, system-ui, Tahoma, sans-serif;
-    -webkit-box-sizing:border-box;
-    box-sizing:border-box;
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    outline: none;
+    font-family: "Proxima Nova", Roboto, system-ui, Tahoma, sans-serif;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none;
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
 }
-
-body{
+a {
+    text-decoration: none;
+}
+rect {
+    margin-bottom: 50px;
+}
+body {
     background-color: $BGC_BODY;
 }
 
-.container{
+.container {
     display: flex;
     justify-content: center;
-    height: 100vh;
     background-color: $BGC_BODY;
 }
-.main-page{
+.main-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 15%;
-    a{
+    a {
         margin-top: 20px;
         text-decoration: none;
         padding: 5px 15px 10px 15px;
         transition: 0.3s ease-in;
         color: #000;
-        &:hover{
-            
+        &:hover {
             background-color: rgb(255, 199, 199);
             border-radius: 5px;
+        }
+    }
+}
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $BGC_HEADER;
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px;
+    a {
+        color: #000;
+    }
+    nav {
+        width: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    button,
+    a {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 10px;
+        transition: 0.2s ease-in;
+        border-radius: 5px;
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.116);
         }
     }
 }

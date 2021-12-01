@@ -10,7 +10,7 @@ const initState: any = {
     users: []
 }
 
-export const dataBase = (state = initState, action: any) => {
+export const usersDataBase = (state = initState, action: any) => {
     switch (action.type) {
         case ('ADD_NEW_USER'):
 

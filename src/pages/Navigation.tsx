@@ -8,6 +8,8 @@ const Main: React.FC = () => {
             <h1>Naviagation page</h1>
             <Link to="/registration">Registration</Link>
             <Link to="/login">Login</Link>
+            <Link to="/products">Products</Link>
+
 
         </div>
     );

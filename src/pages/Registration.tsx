@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { FormBuilder } from '../components';
@@ -10,23 +10,19 @@ import { addUserToStore } from "../redux/actions/addUserToStore";
 
 
 
-interface IUserData {
-    [name: string]: string
-}
+// interface IUserData {
+//     [name: string]: string
+// }
 interface IRegProps {
     setRedirect?: any
 }
 
-const Registration: React.FC<IRegProps> = ({ setRedirect }) => {
+const Registration: React.FC<IRegProps> = () => {
 
     // CONSTANTS=================================
     const dispatch: (obj: object) => void = useDispatch();
     const history = useHistory()
 
-
-    // STATETS===================================
-    // States for Login,Password,Email,Repassword 
-    const [registrationData, setRegistrationData] = useState<IUserData>({})
 
     // HOOKS=====================================
 
