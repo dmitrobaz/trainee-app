@@ -39,7 +39,7 @@ const ButtonCart: React.FC<IButtonProps> = ({ totalCount, peopleCount, starShips
                     </div>
                     <div className="button-cart__item">
                         {peopleCount && <span className="button-cart__item-count">{peopleCount}</span>}
-                        <BsPeopleFill style={{ transform: "scale(2.3)" }} fill='#3f3f3f' />
+                        <BsPeopleFill style={{ transform: "scale(2.3)", marginRight: "10px" }} fill='#3f3f3f' />
                     </div>
                 </button>
 

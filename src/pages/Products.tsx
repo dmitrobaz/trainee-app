@@ -34,9 +34,7 @@ const Products: React.FC = () => {
                                 itemSubtitle={`${item[0].toUpperCase()}${item.slice(1)}`}
                                 link={`/products/${item}`}
                                 key={index} />)
-                        : Array(2).fill(0).map((_, index) =>
-                            <MyLoader
-                                key={index} />)
+                        : <MyLoader />
                     }
                 </ul>
             </MainWrapper>

@@ -13,7 +13,9 @@ const Header = () => {
     return (
         <header className="header">
             <nav>
-                <Link to="/products"><AiFillHome style={{ transform: "scale(2.1)" }} fill='#3f3f3f' /></Link>
+                <Link to="/products">
+                    <AiFillHome style={{ transform: "scale(2.1)" }} fill='#3f3f3f' />
+                </Link>
             </nav>
             <ButtonCart
                 totalCount={totalCount === 0 ? '' : totalCount}

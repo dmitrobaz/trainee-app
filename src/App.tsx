@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+import { Loading } from './components';
 import { Registration, Login, Navigation, Products, Peolpe, StarShip, Test, Cart, CardPage } from './pages';
 
 
@@ -11,8 +13,6 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(isAuth)
 
 
-  console.log(isAuth);
-
 
   // useEffect(() => {
   //   if (auth) {
@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   return (
     <Switch>
-      <Route path="/test" component={Test} exact />
+      <Route path="/test" component={Loading} exact />
       <Route path="/cart" component={Cart} />
 
 

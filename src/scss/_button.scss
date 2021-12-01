@@ -1,9 +1,17 @@
 @import "./vars";
 
 .button {
+    &-show-info {
+        border: none;
+        padding: 10px 20px;
+        background-color: $BGC_INPUT;
+        border-radius: 5px;
+        cursor: pointer;
+    }
     &-cart {
         display: flex;
         justify-content: space-between;
+        min-height: 40px;
         &__item {
             display: flex;
             justify-content: space-between;

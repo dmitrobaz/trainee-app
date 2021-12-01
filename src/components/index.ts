@@ -9,6 +9,10 @@ export { default as MainWrapper } from './MainWrapper';
 export { default as StarShipsCard } from './StarShipsCard';
 export { default as PeopleCard } from './PeopleCard';
 export { default as NavButton } from './NavButton';
+export { default as Loading } from './Loading';
+export { default as ShowInfo } from './ShowInfo';
+
+
 
 
 
