@@ -12,8 +12,6 @@ const Header: React.FC = () => {
     const starShipsCount = appDataStates.cart.starships.length
     const totalItemCount = peopleCount + starShipsCount
 
-    
-
     return (
         <header className="header">
             <nav>

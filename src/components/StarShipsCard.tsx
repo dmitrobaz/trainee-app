@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 import { addStarShipsToCart } from '../redux/actions/addStarShipsToCart';
@@ -15,10 +15,26 @@ interface IStarShipsCard {
 }
 
 const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCard }) => {
+    const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
+
     const dispatch = useDispatch()
+    const cartData = useSelector(({ applicationStates }: any) => applicationStates.cart)
+
+    const starShipsCount = cartData.starships
 
     const clickHandler = () => {
         dispatch(addStarShipsToCart(currentCardData))
+
+        const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('starShipCardsData'))
+
+        if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
+            localStorage.setItem('starShipCardsData', JSON.stringify([currentCardData]))
+            return
+        }
+        if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
+            localStorage.setItem('starShipCardsData', JSON.stringify([...currentPeopleDataFromLS, currentCardData]))
+            return
+        }
     }
     return (
         <li className='product__item'>

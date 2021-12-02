@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
@@ -13,11 +13,23 @@ interface IPeopleCard {
 }
 
 const PeopleCard: React.FC<IPeopleCard> = ({ descr, img, styleCard }) => {
+    const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
 
     const onAddToCart = () => {
         dispatch(addPeopleToCart({ data: descr, type: 'people' }))
+
+        const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('peopleCardsData'))
+
+        if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
+            localStorage.setItem('peopleCardsData', JSON.stringify([descr]))
+            return
+        }
+        if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
+            localStorage.setItem('peopleCardsData', JSON.stringify([...currentPeopleDataFromLS, descr]))
+            return
+        }
     }
     return (
         <li className='product__item'>

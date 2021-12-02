@@ -25,7 +25,7 @@ const Login: React.FC<ILogin> = () => {
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ usersDataBase }: { [name: string]: any }) => usersDataBase.users[0] ? usersDataBase.users[0] : { login: '' })
+    const usersFromRedux = useSelector(({ applicationStates }: { [name: string]: any }) => applicationStates.users[0] ? applicationStates.users[0] : { login: '' })
     const history = useHistory()
 
     // FUNCTIONS=================================

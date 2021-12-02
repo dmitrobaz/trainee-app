@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Header,  MainWrapper, MyLoader,PeopleCard } from "../components";
+import { Header, MainWrapper, MyLoader, PeopleCard } from "../components";
 
 import { getPeopleResponse } from '../redux/actions/getResponse';
 
