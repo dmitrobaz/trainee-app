@@ -6,9 +6,9 @@ const Main: React.FC = () => {
     return (
         <div className='main-page'>
             <h1>Naviagation page</h1>
-            <Link to="/registration">Registration</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/products">Products</Link>
+            <Link to="/trainee-app/registration">Registration</Link>
+            <Link to="/trainee-app/login">Login</Link>
+            <Link to="/trainee-app/products">Products</Link>
 
 
         </div>

@@ -27,15 +27,15 @@ const Route: React.FC = () => {
       <ReactRoute path="/cart" component={Cart} />
 
 
-      <ReactRoute path="/" component={Navigation} exact />
-      <ReactRoute path="/login" component={Login} />
-      <ReactRoute path="/registration" component={Registration} />
-      {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
-      <ReactRoute path="/products" component={Products} exact />
-      <ReactRoute path="/products/people" component={Peolpe} exact />
-      <ReactRoute path="/products/people/card" component={CardPage} />
-      <ReactRoute path="/products/starships" component={StarShip} exact />
-      <ReactRoute path="/products/starships/card" component={CardPage} />
+      <ReactRoute path="/trainee-app/" component={Navigation} exact />
+      <ReactRoute path="/trainee-app/login" component={Login} />
+      <ReactRoute path="/trainee-app/registration" component={Registration} />
+      {isAuthenticated ? <Redirect from='/trainee-app/login' to="/trainee-app/products" /> : <Redirect from='/trainee-app/products' to="/trainee-app/login" />}
+      <ReactRoute path="/trainee-app/products" component={Products} exact />
+      <ReactRoute path="/trainee-app/products/people" component={Peolpe} exact />
+      <ReactRoute path="/trainee-app/products/people/card" component={CardPage} />
+      <ReactRoute path="/trainee-app/products/starships" component={StarShip} exact />
+      <ReactRoute path="/trainee-app/products/starships/card" component={CardPage} />
 
     </Switch>
   );

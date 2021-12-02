@@ -107,7 +107,7 @@ const Login: React.FC<ILogin> = () => {
                     buttonText="Login"
                     formTitle="Login"
                     linkText="Forgot password"
-                    link="/registration"
+                    link="/trainee-app/registration"
                     errorSingUp={errorSingUp}
                 />
 

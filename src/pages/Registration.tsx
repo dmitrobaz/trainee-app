@@ -35,7 +35,7 @@ const Registration: React.FC<IRegProps> = () => {
         localStorage.setItem('users', JSON.stringify(formData));
 
         // Redirect to login page 
-        history.push('/login')
+        history.push('/trainee-app/login')
     }
 
     return (
@@ -45,7 +45,7 @@ const Registration: React.FC<IRegProps> = () => {
                 config={formConfig}
                 buttonText="Register"
                 linkText="Member login"
-                link="/login"
+                link="/trainee-app/login"
                 formTitle="Registration"
             />
         </MainWrapper>
