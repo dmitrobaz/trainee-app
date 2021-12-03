@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { FormBuilder, MainWrapper } from '../components';
 
 import { loginConfig as formConfig } from '../config/configForLoginForm';
+import { setAuthenticated } from '../redux/actions/app';
 
 
 interface ILogin {
@@ -14,6 +15,13 @@ interface ILogin {
     history: () => void
 }
 
+interface IData {
+    formData: { [name: string]: string },
+    dataBase: [{ [name: string]: string }]
+}
+
+type formDataType = { [name: string]: string }
+type dataBaseType = [{ [name: string]: string }]
 const Login: React.FC<ILogin> = () => {
 
     // STATETS===================================
@@ -33,32 +41,32 @@ const Login: React.FC<ILogin> = () => {
         (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
             (formData.login === localStorageData.login)
 
-    // const isSamePasswordLocalStorage =
-    //     (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
-    //         (formData.password === localStorageData.password)
+    const isSamePasswordLocalStorage =
+        (formData: formDataType, localStorageData: { [name: string]: string }) =>
+            (formData.password === localStorageData.password)
 
     // Check password and login from input states(formData) with data in Redux storage 
     const isSameLoginRedux =
-        (formData: { [name: string]: string }, dataBase: any) => dataBase.some((item: any) => formData.login === item.login)
+        (formData: formDataType, dataBase: dataBaseType) => {
+            return dataBase.some((item: any) => formData.login === item.login)
+        }
 
-    // const isSamePasswordRedux =
-    //     (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
-    //         (formData.password === dataBase.password)
+    const isSamePasswordRedux =
+        (formData: formDataType, dataBase: any) => formData.password === dataBase.password
 
 
     const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
         const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
         const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
 
-        if (!userDataFromLocalStorage || (users.length === 0)) {
+        if (!userDataFromLocalStorage && (users.length === 0)) {
             setErrorSingUp('User data base is empty')
             return
         }
 
         if (isSameLoginRedux(formData, users) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
             setSuccessfulLogIn('Successful log in')
-            history.push('/products')
-            localStorage.setItem('auth', 'true')
+            setTimeout(() => dispatch(setAuthenticated(true)), 500)
             return
         }
 

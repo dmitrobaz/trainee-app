@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { FiArrowLeft, FiList, FiLogOut, FiSquare } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated } from '../redux/actions/app';
 
 interface INavButtonProps {
     view: boolean,
@@ -11,11 +13,12 @@ interface INavButtonProps {
 }
 
 const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft }) => {
+    const dispatch: (obj: object) => void = useDispatch();
+
     const history = useHistory()
     const location = useLocation()
     const logOut = () => {
-        localStorage.setItem('auth', 'false')
-        history.push('/login')
+        dispatch(setAuthenticated(false))
     }
 
     return (

@@ -1,51 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { Route as ReactRoute, Switch, Redirect } from 'react-router-dom';
 
 import { Loading } from './components';
+
 import { Registration, Login, Navigation, Products, Peolpe, StarShip, Cart, CardPage } from './pages';
-import { addPeopleToCart } from './redux/actions/app/addPeopleToCart';
 
+interface IRouteProps {
+  isAuthenticated: boolean
+}
 
-
-const Route: React.FC = () => {
-  const dispatch = useDispatch()
-
-  const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
-  const auth: any = parseDataFromLS(localStorage.getItem('auth'))
-  const starShipsCount = parseDataFromLS(localStorage.getItem('starShipCardsData'))
-  const peopleCardsData = parseDataFromLS(localStorage.getItem('peopleCardsData'))
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(auth)
-
-
-  useEffect(() => {
-    peopleCardsData && peopleCardsData.forEach((item: any) => dispatch(addPeopleToCart(item)))
-    starShipsCount && starShipsCount.forEach((item: any) => dispatch(addPeopleToCart(item)))
-  }, [])
-
+const Route: React.FC<IRouteProps> = ({ isAuthenticated }) => {
+  console.log('isAuthenticated', isAuthenticated);
 
   return (
-    <>
-      <Helmet>
-        <link rel="icon" href="./favicon.ico" />
-      </Helmet>
-      <Switch>
-        <ReactRoute path="/test" component={Loading} exact />
-        <ReactRoute path="/cart" component={Cart} />
-        <ReactRoute path="/" component={Navigation} exact />
-        <ReactRoute path="/login" component={Login} />
-        <ReactRoute path="/registration" component={Registration} />
-        {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
-        <ReactRoute path="/products" component={Products} exact />
-        <ReactRoute path="/products/people" component={Peolpe} exact />
-        <ReactRoute path="/products/people/card" component={CardPage} />
-        <ReactRoute path="/products/starships" component={StarShip} exact />
-        <ReactRoute path="/products/starships/card" component={CardPage} />
-
-      </Switch>
-    </>
+    <Switch>
+      {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
+      <ReactRoute path="/test" component={Loading} exact />
+      <ReactRoute path="/cart" component={Cart} />
+      <ReactRoute path="/" component={Navigation} exact />
+      <ReactRoute path="/login" component={Login} />
+      <ReactRoute path="/registration" component={Registration} />
+      <ReactRoute path="/products" component={Products} exact />
+      <ReactRoute path="/products/people" component={Peolpe} exact />
+      <ReactRoute path="/products/people/card" component={CardPage} />
+      <ReactRoute path="/products/starships" component={StarShip} exact />
+      <ReactRoute path="/products/starships/card" component={CardPage} />
+    </Switch>
   );
 }
 

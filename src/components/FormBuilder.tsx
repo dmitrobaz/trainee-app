@@ -58,7 +58,7 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormState((prevProps) => ({ ...prevProps, [name]: value }))
+        setFormState((prevProps) => ({ ...prevProps, [name]: value}))
     }
 
     const onClickHandler = () => {
@@ -125,7 +125,7 @@ const FormBuilder: React.FC<IComponentProps> = ({ config, formTitle, linkText, l
                 className='login-form__input-block-link' >
                 {linkText}
             </Link>
-
+            {/* {buttonText==='Login'?<input type="checkbox">Stay login</input>} */}
         </form>
     );
 }
