@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Route from './Route';
 
 import { Provider } from 'react-redux';
-import store from '../src/redux/store'
+import store from './redux/strore'
 
 import './style.scss';
 

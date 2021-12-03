@@ -4,7 +4,7 @@ import { Route as ReactRoute, Switch, Redirect } from 'react-router-dom';
 
 import { Loading } from './components';
 import { Registration, Login, Navigation, Products, Peolpe, StarShip, Cart, CardPage } from './pages';
-import { addPeopleToCart } from './redux/actions/addPeopleToCart';
+import { addPeopleToCart } from './redux/actions/app/addPeopleToCart';
 
 
 

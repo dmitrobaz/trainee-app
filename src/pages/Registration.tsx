@@ -5,7 +5,7 @@ import { FormBuilder, MainWrapper } from '../components';
 import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
 import { useDispatch } from 'react-redux';
-import { addUserToStore } from "../redux/actions/addUserToStore";
+import { addUserToStore } from "../redux/actions/app/addUserToStore";
 
 
 

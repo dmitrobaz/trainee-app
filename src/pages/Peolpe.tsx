@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { Header, MainWrapper, MyLoader, PeopleCard } from "../components";
 
-import { getPeopleResponse } from '../redux/actions/getResponse';
+import { getPeopleResponse } from '../redux/actions/request';
 
 import { imagesPeople } from '../assets/img';
 
 
 
 const Peolpe: React.FC = () => {
+
     const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleListCard') || '{}') || false)
 
     const dispatch: any = useDispatch()
+    const responseData: any = useSelector(({ request }: any) => request)
 
-    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
-    const peopleStore = {
-        data: responseStatesFromReduxStore.people.data,
-        pending: responseStatesFromReduxStore.people.pending,
-        error: responseStatesFromReduxStore.people.error
-    }
+    const peopleStore = responseData.people
+
+    useEffect(() => {
+        dispatch(getPeopleResponse.get())
+    }, [])
 
     useEffect(() => {
         localStorage.setItem('isStyleListCard', JSON.stringify(view))
     }, [view])
 
-    useEffect(() => {
-        dispatch(getPeopleResponse.get())
-    }, [])
+
 
     const clickHandler = () => {
         setView(!view)
@@ -38,7 +38,7 @@ const Peolpe: React.FC = () => {
             <Header />
             <MainWrapper title='People' onClick={clickHandler} linkArrowLeft='/products' >
                 <ul className={view ? 'style-list' : 'style-wrap'}>
-                    {!peopleStore.pending
+                    {peopleStore.status === 'success'
                         ? peopleStore.data.results.map((item: any, id: number) =>
                             <PeopleCard
                                 descr={item}

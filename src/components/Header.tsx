@@ -6,7 +6,7 @@ import { ButtonCart } from '.';
 
 const Header: React.FC = () => {
     // applicationStates contains key "users"  - all registered users and key "cart"- all added items to the cart.
-    const appDataStates = useSelector(({ applicationStates }: any) => applicationStates)
+    const appDataStates = useSelector(({ app }: any) => app)
 
     const peopleCount = appDataStates.cart.people.length
     const starShipsCount = appDataStates.cart.starships.length

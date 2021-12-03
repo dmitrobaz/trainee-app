@@ -1,14 +1,24 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Header, MainWrapper, ProductCard } from '../components';
 
+import { clearCart } from "../redux/actions/clearCart"
 const Cart = () => {
-    const cartData = useSelector(({ applicationStates }: any) => applicationStates.cart)
+    const dispatch = useDispatch()
+    const cartData = useSelector(({ app }: any) => app.cart)
 
     const totalPeopleCount = cartData.people && cartData.people.length
     const totalStarShipsCount = cartData.starships && cartData.starships.length
 
 
+    const onClickClearCart = () => {
+        const isConfirm: boolean = window.confirm('Are you sure you want to empty your cart?')
+        if (isConfirm) {
+            dispatch(clearCart())
+            localStorage.removeItem('peopleCardsData')
+            localStorage.removeItem('starSCardsData')
+        }
+    }
     return (
         <>
             <Header />
@@ -17,7 +27,10 @@ const Cart = () => {
                     <ProductCard itemCount={totalStarShipsCount} itemSubtitle="Starships" link='/products' />
 
                     <ProductCard itemCount={totalPeopleCount} itemSubtitle="People" link='/products' />
+
                 </ul>
+                <button onClick={onClickClearCart}>Clear cart</button>
+
             </MainWrapper>
         </>
     );

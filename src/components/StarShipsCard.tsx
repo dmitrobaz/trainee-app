@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
-import { addStarShipsToCart } from '../redux/actions/addStarShipsToCart';
+import { addStarShipsToCart } from '../redux/actions/app';
 
 
 
@@ -18,9 +18,6 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
-    const cartData = useSelector(({ applicationStates }: any) => applicationStates.cart)
-
-    const starShipsCount = cartData.starships
 
     const clickHandler = () => {
         dispatch(addStarShipsToCart(currentCardData))
@@ -40,8 +37,7 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
         <li className='product__item'>
             <Link to={{
                 pathname: "/products/starships/card",
-                search: `?req=${currentCardData.url}`,
-                props: currentCardData
+                search: `?req=${currentCardData.url}`
             }}></Link >
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
                 <p>

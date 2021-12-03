@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Header, MainWrapper, MyLoader, StarShipsCard } from '../components';
 
-import { getStarShipsResponse } from '../redux/actions/getResponse';
+import { getStarShipsResponse } from '../redux/actions/request';
 
 import { imagesStarShips } from '../assets/img';
 
@@ -13,12 +13,10 @@ const StarShip: React.FC = () => {
 
     const dispatch = useDispatch()
 
-    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
-    const starShipsStore = {
-        data: responseStatesFromReduxStore.starships.data,
-        pending: responseStatesFromReduxStore.starships.pending,
-        error: responseStatesFromReduxStore.starships.error
-    }
+    const responseData: any = useSelector(({ request }: any) => request)
+
+    const starShipsStore = responseData.starships
+
 
     useEffect(() => {
         localStorage.setItem('isStyleListCard', JSON.stringify(view))
@@ -37,7 +35,7 @@ const StarShip: React.FC = () => {
             <Header />
             <MainWrapper title='Star ships' onClick={clickHandler} linkArrowLeft='/products'>
                 <ul className={view ? 'style-list' : 'style-wrap'}>
-                    {!starShipsStore.pending
+                    {starShipsStore.status === 'success'
                         ? starShipsStore.data.results.map((item: any, id: number) =>
                             <StarShipsCard
                                 currentCardData={item}

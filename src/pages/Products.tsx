@@ -3,25 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
 
-import { getPeopleResponse, getStarShipsResponse } from '../redux/actions/getResponse';
+import { getPeopleResponse, getStarShipsResponse } from '../redux/actions/request';
 
 
 
 const Products: React.FC = () => {
     const dispatch = useDispatch()
 
-    const responseStatesFromReduxStore: any = useSelector(({ requestsStates }: any) => requestsStates)
+    const responseData: any = useSelector(({ request }: any) => request)
 
-    const peopleStore = {
-        data: responseStatesFromReduxStore.people.data,
-        pending: responseStatesFromReduxStore.people.pending,
-        error: responseStatesFromReduxStore.people.error
-    }
-    const starShipsStore = {
-        data: responseStatesFromReduxStore.starships.data,
-        pending: responseStatesFromReduxStore.starships.pending,
-        error: responseStatesFromReduxStore.starships.error
-    }
+    const peopleStore = responseData.people
+    const starShipsStore = responseData.starships
+
+    console.log(peopleStore, starShipsStore);
 
     useEffect(() => {
         dispatch(getPeopleResponse.get())
@@ -33,7 +27,7 @@ const Products: React.FC = () => {
             <Header />
             <MainWrapper title='Products' classContent='product-wrapper-main'>
                 <ul>
-                    {!peopleStore.pending && !starShipsStore.pending
+                    {peopleStore.status === 'success' && starShipsStore.status === 'success'
                         ? <>
                             <ProductCard
                                 itemCount={peopleStore.data.count}

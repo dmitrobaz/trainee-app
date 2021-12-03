@@ -5,7 +5,7 @@ import { loginConfig as formConfig } from '../config/configForLoginForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { addUserToStore } from '../redux/actions/addUserToStore';
+import { addUserToStore } from '../redux/actions/app/addUserToStore';
 
 
 
@@ -25,7 +25,7 @@ const Login: React.FC<ILogin> = () => {
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ applicationStates }: { [name: string]: any }) => applicationStates.users[0] ? applicationStates.users[0] : { login: '' })
+    const users = useSelector(({ app }: { [name: string]: any }) => app.users)
     const history = useHistory()
 
     // FUNCTIONS=================================
@@ -40,8 +40,7 @@ const Login: React.FC<ILogin> = () => {
 
     // Check password and login from input states(formData) with data in Redux storage 
     const isSameLoginRedux =
-        (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
-            (formData.login === dataBase.login)
+        (formData: { [name: string]: string }, dataBase: any) => dataBase.some((item: any) => formData.login === item.login)
 
     // const isSamePasswordRedux =
     //     (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
@@ -52,15 +51,14 @@ const Login: React.FC<ILogin> = () => {
         const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
         const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
 
-        if (!userDataFromLocalStorage || (usersFromRedux.login === '')) {
-            setErrorSingUp('User with this login does not exist')
+        if (!userDataFromLocalStorage || (users.length === 0)) {
+            setErrorSingUp('User data base is empty')
             return
         }
 
-        if (isSameLoginRedux(formData, usersFromRedux) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
-            dispatch(addUserToStore(formData))
+        if (isSameLoginRedux(formData, users) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
             setSuccessfulLogIn('Successful log in')
-            setTimeout(() => history.push('/products'), 2000)
+            history.push('/products')
             localStorage.setItem('auth', 'true')
             return
         }

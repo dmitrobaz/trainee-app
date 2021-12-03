@@ -4,36 +4,39 @@ interface IShowInfo {
     infoApiUrl?: any
 }
 const ShowInfo: React.FC<IShowInfo> = ({ infoApiUrl }) => {
-    const [showFilms, SetShowFilms] = useState<boolean>(false)
+    const [showInfoState, SetShowInfoState] = useState<boolean>(false)
     const [statusRequst, setStatusRequest] = useState<boolean>(false)
-    const [filmList, setFilmList] = useState<any>([])
+    const [infoList, setInfoList] = useState<any>([])
 
     useEffect(() => {
         infoApiUrl.map((item: string) => {
-            axios.get(item).then(({ data }) => setFilmList((prevProps: any) => ([...prevProps, data])))
+            axios.get(item).then(({ data }) => setInfoList((prevProps: any) => ([...prevProps, data])))
         })
     }, [])
 
     useEffect(() => {
-        !filmList ? setStatusRequest(false) : setStatusRequest(true)
-    }, [filmList])
+        !infoList ? setStatusRequest(false) : setStatusRequest(true)
+    }, [infoList])
 
     const onShowFilms = () => {
-        SetShowFilms(!showFilms)
+
+        SetShowInfoState(!showInfoState)
     }
     return (
         <>
 
-            {!showFilms
-                ? <button className="button-show-info" onClick={onShowFilms}>Show films</button>
-                : <>
+            {showInfoState
+                ? <>
                     <button className="button-show-info" onClick={onShowFilms}>
                         Close
                     </button>
+
                     {statusRequst
-                        ? <ul >{filmList.map((film: any, key: number) => <li key={key}>{film.title}</li>)}</ul>
+                        ? <ul >{infoList.map((film: any, key: number) => <li key={key}>{film.title}</li>)}</ul>
                         : <span>Loading...</span>}
                 </>
+                : <button className="button-show-info" onClick={onShowFilms}>Show films</button>
+
             }
         </>
     );

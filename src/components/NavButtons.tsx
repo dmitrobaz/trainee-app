@@ -22,6 +22,8 @@ const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft })
         <div>
             {linkArrowLeft && <Link to={linkArrowLeft}><FiArrowLeft /></Link>}
 
+
+
             {(location.pathname === "/products/people" || location.pathname === "/products/starships") &&
                 <button onClick={onClick}>
                     {view

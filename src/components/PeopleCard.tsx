@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { addPeopleToCart } from '../redux/actions/addPeopleToCart';
+import { addPeopleToCart } from '../redux/actions/app/';
 
 
 interface IPeopleCard {
@@ -35,8 +35,7 @@ const PeopleCard: React.FC<IPeopleCard> = ({ descr, img, styleCard }) => {
         <li className='product__item'>
             <Link to={{
                 pathname: "/products/people/card",
-                search: `?req=${descr.url}`,
-                props: descr
+                search: `?req=${descr.url}`
             }}></Link >
 
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
