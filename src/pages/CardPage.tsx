@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { Header, MainWrapper, ShowInfo } from '../components';
 
@@ -73,6 +74,9 @@ const CardPage: React.FC = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{currentPageUrl.includes('people') ? peopleData?.name : starShipsData?.name}</title>
+            </Helmet>
             <Header />
 
             {peopleStatus === 'success' || starShipsStatus === 'success'

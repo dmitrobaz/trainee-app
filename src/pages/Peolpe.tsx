@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { Header, MainWrapper, MyLoader, PeopleCard } from "../components";
 
@@ -35,6 +35,9 @@ const Peolpe: React.FC = () => {
 
     return (
         <>
+            <Helmet>
+                <title>People</title>
+            </Helmet>
             <Header />
             <MainWrapper title='People' onClick={clickHandler} linkArrowLeft='/products' >
                 <ul className={view ? 'style-list' : 'style-wrap'}>

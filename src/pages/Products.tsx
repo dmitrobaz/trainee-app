@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
@@ -24,6 +25,9 @@ const Products: React.FC = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Products</title>
+            </Helmet>
             <Header />
             <MainWrapper title='Products' classContent='product-wrapper-main'>
                 <ul>

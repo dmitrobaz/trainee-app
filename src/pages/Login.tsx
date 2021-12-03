@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { FormBuilder, MainWrapper } from '../components';
-import { loginConfig as formConfig } from '../config/configForLoginForm';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
-import { addUserToStore } from '../redux/actions/app/addUserToStore';
+import { FormBuilder, MainWrapper } from '../components';
 
+import { loginConfig as formConfig } from '../config/configForLoginForm';
 
 
 interface ILogin {
@@ -98,7 +97,9 @@ const Login: React.FC<ILogin> = () => {
                     : ""
             }
             <MainWrapper >
-
+                <Helmet>
+                    <title>Login page</title>
+                </Helmet>
                 <FormBuilder
                     takeData={(obj: object) => takeDataFromFormBuilder(obj)}
                     config={formConfig}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 import { Route as ReactRoute, Switch, Redirect } from 'react-router-dom';
 
@@ -26,22 +27,25 @@ const Route: React.FC = () => {
 
 
   return (
-    <Switch>
-      <ReactRoute path="/test" component={Loading} exact />
-      <ReactRoute path="/cart" component={Cart} />
+    <>
+      <Helmet>
+        <link rel="icon" href="./favicon.ico" />
+      </Helmet>
+      <Switch>
+        <ReactRoute path="/test" component={Loading} exact />
+        <ReactRoute path="/cart" component={Cart} />
+        <ReactRoute path="/" component={Navigation} exact />
+        <ReactRoute path="/login" component={Login} />
+        <ReactRoute path="/registration" component={Registration} />
+        {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
+        <ReactRoute path="/products" component={Products} exact />
+        <ReactRoute path="/products/people" component={Peolpe} exact />
+        <ReactRoute path="/products/people/card" component={CardPage} />
+        <ReactRoute path="/products/starships" component={StarShip} exact />
+        <ReactRoute path="/products/starships/card" component={CardPage} />
 
-
-      <ReactRoute path="/" component={Navigation} exact />
-      <ReactRoute path="/login" component={Login} />
-      <ReactRoute path="/registration" component={Registration} />
-      {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
-      <ReactRoute path="/products" component={Products} exact />
-      <ReactRoute path="/products/people" component={Peolpe} exact />
-      <ReactRoute path="/products/people/card" component={CardPage} />
-      <ReactRoute path="/products/starships" component={StarShip} exact />
-      <ReactRoute path="/products/starships/card" component={CardPage} />
-
-    </Switch>
+      </Switch>
+    </>
   );
 }
 

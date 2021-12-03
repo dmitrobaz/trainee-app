@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header, MainWrapper, ProductCard } from '../components';
 
@@ -21,6 +22,9 @@ const Cart = () => {
     }
     return (
         <>
+            <Helmet>
+                <title>Cart</title>
+            </Helmet>
             <Header />
             <MainWrapper title="Cart" linkArrowLeft='/products' classContent='product-wrapper-main'>
                 <ul>

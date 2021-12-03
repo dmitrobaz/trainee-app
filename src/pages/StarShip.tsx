@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { Header, MainWrapper, MyLoader, StarShipsCard } from '../components';
 
@@ -32,6 +33,9 @@ const StarShip: React.FC = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Star ships</title>
+            </Helmet>
             <Header />
             <MainWrapper title='Star ships' onClick={clickHandler} linkArrowLeft='/products'>
                 <ul className={view ? 'style-list' : 'style-wrap'}>
