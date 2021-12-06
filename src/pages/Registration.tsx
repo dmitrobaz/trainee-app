@@ -1,11 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { useDispatch } from 'react-redux';
 
-import { FormBuilder } from '../components';
+import { FormBuilder, MainWrapper } from '../components';
+
 import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
-import { useDispatch } from 'react-redux';
-import { addUserToStore } from "../redux/actions/addUserToStore";
+import { addUserToStore } from "../redux/actions/app";
 
 
 
@@ -39,14 +41,19 @@ const Registration: React.FC<IRegProps> = () => {
     }
 
     return (
-        <FormBuilder
-            takeData={(obj: any) => takeDataFromFormBuilder(obj)}
-            config={formConfig}
-            buttonText="Register"
-            linkText="Member login"
-            link="/login"
-            formTitle="Registration"
-        />
+        <MainWrapper  >
+            <Helmet>
+                <title>Registration</title>
+            </Helmet>
+            <FormBuilder
+                takeData={(obj: any) => takeDataFromFormBuilder(obj)}
+                config={formConfig}
+                buttonText="Register"
+                linkText="Member login"
+                link="/login"
+                formTitle="Registration"
+            />
+        </MainWrapper>
     );
 }
 export default Registration;

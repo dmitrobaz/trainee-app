@@ -1,33 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { Registration, Login, Navigation, Products, Peolpe, StarShip } from './pages';
+import { Helmet } from 'react-helmet';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPeopleToCart, addStarShipsToCart } from './redux/actions/app';
+import Route from './Route';
+
+import './style.scss';
 
 
+const App: React.FC = ({ children }) => {
+    const dispatch = useDispatch()
 
-const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-
-  const auth = localStorage.getItem('auth')
-
-  useEffect(() => {
-    if (auth) {
-      setIsAuthenticated(true)
-    }
-  })
+    const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
 
-  return (
-    <Switch>
-      
-      <Route path="/" component={Navigation} exact />
-      <Route path="/login" component={Login} />
-      <Route path="/registration" component={Registration} />
-      {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
-      <Route path="/products" component={Products} exact />
-      <Route path="/products/people" component={Peolpe} />
-      <Route path="/products/starships" component={StarShip} />
-    </Switch>
-  );
-}
+    const auth: any = parseDataFromLS(localStorage.getItem('auth')) ? parseDataFromLS(localStorage.getItem('auth')) : false
+    const starShipsCount = parseDataFromLS(localStorage.getItem('starShipCardsData'))
+    const peopleCardsData = parseDataFromLS(localStorage.getItem('peopleCardsData'))
+    console.log(auth);
+
+    // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+
+    const isAuthenticated = useSelector(({ app }: any) => app.states.isAuthenticated)
+
+    useEffect(() => console.log('1')
+        , [auth])
+
+    useEffect(() => {
+        peopleCardsData && peopleCardsData.forEach((item: any) => dispatch(addPeopleToCart(item)))
+        starShipsCount && starShipsCount.forEach((item: any) => dispatch(addStarShipsToCart(item)))
+    }, [])
+    return (
+        <>
+            <Helmet>
+                <link rel="icon" href="./favicon.ico" />
+            </Helmet>
+            <Route isAuthenticated={isAuthenticated} />
+        </>
+    );
+};
 
 export default App;

@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom';
 interface IProductCartProps {
     itemCount: number,
     itemSubtitle: string,
-    link: string,
-    img?: string
+    link: string
 }
-
 
 const ProductCard: React.FC<IProductCartProps> = ({ itemCount, itemSubtitle, link }) => {
 

@@ -1,52 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MyLoader, ProductCard } from '../components';
-import { axiosPeopleDataRequest, axiosStarShipsDataRequest } from '../redux/actions/setItemsToSore';
+import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
+
+import { getPeopleResponse, getStarShipsResponse } from '../redux/actions/request';
+
 
 
 const Products: React.FC = () => {
-    const [statusRequst, setStatusRequest] = useState<boolean>(false)
-
-    const itemsDataFromRedux: any = useSelector(({ itemDataBase }: any) => itemDataBase)
     const dispatch = useDispatch()
 
+    const responseData: any = useSelector(({ request }: any) => request)
+
+    const peopleStore = responseData.people
+    const starShipsStore = responseData.starships
+
+    console.log(peopleStore, starShipsStore);
+
     useEffect(() => {
-        if (!('data' in itemsDataFromRedux.people) || !('data' in itemsDataFromRedux.starships)) {
-            Promise.all([
-                dispatch(axiosPeopleDataRequest()),
-                dispatch(axiosStarShipsDataRequest())
-            ]).then(() => setStatusRequest(true))
-            return
-        }
-        setStatusRequest(true)
+        dispatch(getPeopleResponse.get())
+        dispatch(getStarShipsResponse.get())
     }, [])
 
-
-
-
     return (
-        <div className='product'>
-            <header>
-                <h1>Products</h1>
-            </header>
-
-            <main className='product-wrapper-main'>
+        <>
+            <Helmet>
+                <title>Products</title>
+            </Helmet>
+            <Header />
+            <MainWrapper title='Products' classContent='product-wrapper-main'>
                 <ul>
-                    {statusRequst
-                        ? Object.keys(itemsDataFromRedux).map((item: any, index: number) =>
+                    {peopleStore.status === 'success' && starShipsStore.status === 'success'
+                        ? <>
                             <ProductCard
-                                itemCount={itemsDataFromRedux[item].data.count}
-                                itemSubtitle={`${item[0].toUpperCase()}${item.slice(1)}`}
-                                link={`/products/${item}`}
-                                key={index} />)
-                        : Array(2).fill(0).map((_, index) =>
-                            <MyLoader
-                                key={index} />)
+                                itemCount={peopleStore.data.count}
+                                itemSubtitle='People'
+                                link={`/products/people`}
+                            />
+                            <ProductCard
+                                itemCount={starShipsStore.data.count}
+                                itemSubtitle='Star ships'
+                                link={`/products/starships`}
+                            />
+                        </>
+                        : <MyLoader />
                     }
                 </ul>
-            </main>
-        </div>
+            </MainWrapper>
+        </>
     );
 };
 

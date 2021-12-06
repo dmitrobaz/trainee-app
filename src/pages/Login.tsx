@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { FormBuilder } from '../components';
-import { loginConfig as formConfig } from '../config/configForLoginForm';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
-import { addUserToStore } from '../redux/actions/addUserToStore';
+import { FormBuilder, MainWrapper } from '../components';
 
+import { loginConfig as formConfig } from '../config/configForLoginForm';
+import { setAuthenticated } from '../redux/actions/app';
 
 
 interface ILogin {
@@ -15,6 +15,13 @@ interface ILogin {
     history: () => void
 }
 
+interface IData {
+    formData: { [name: string]: string },
+    dataBase: [{ [name: string]: string }]
+}
+
+type formDataType = { [name: string]: string }
+type dataBaseType = [{ [name: string]: string }]
 const Login: React.FC<ILogin> = () => {
 
     // STATETS===================================
@@ -25,7 +32,7 @@ const Login: React.FC<ILogin> = () => {
 
     // CONSTANTS================================= 
     const dispatch = useDispatch();
-    const usersFromRedux = useSelector(({ usersDataBase }: { [name: string]: any }) => usersDataBase.users[0] ? usersDataBase.users[0] : { login: '' })
+    const users = useSelector(({ app }: { [name: string]: any }) => app.users)
     const history = useHistory()
 
     // FUNCTIONS=================================
@@ -34,34 +41,32 @@ const Login: React.FC<ILogin> = () => {
         (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
             (formData.login === localStorageData.login)
 
-    // const isSamePasswordLocalStorage =
-    //     (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
-    //         (formData.password === localStorageData.password)
+    const isSamePasswordLocalStorage =
+        (formData: formDataType, localStorageData: { [name: string]: string }) =>
+            (formData.password === localStorageData.password)
 
     // Check password and login from input states(formData) with data in Redux storage 
     const isSameLoginRedux =
-        (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
-            (formData.login === dataBase.login)
+        (formData: formDataType, dataBase: dataBaseType) => {
+            return dataBase.some((item: any) => formData.login === item.login)
+        }
 
-    // const isSamePasswordRedux =
-    //     (formData: { [name: string]: string }, dataBase: { [name: string]: string }) =>
-    //         (formData.password === dataBase.password)
+    const isSamePasswordRedux =
+        (formData: formDataType, dataBase: any) => formData.password === dataBase.password
 
 
     const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
         const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
         const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
 
-        if (!userDataFromLocalStorage || (usersFromRedux.login === '')) {
-            setErrorSingUp('User with this login does not exist')
+        if (!userDataFromLocalStorage && (users.length === 0)) {
+            setErrorSingUp('User data base is empty')
             return
         }
 
-        if (isSameLoginRedux(formData, usersFromRedux) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
-            dispatch(addUserToStore(formData))
+        if (isSameLoginRedux(formData, users) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
             setSuccessfulLogIn('Successful log in')
-            setTimeout(() => history.push('/products'), 2000)
-            localStorage.setItem('auth', 'true')
+            setTimeout(() => dispatch(setAuthenticated(true)), 500)
             return
         }
 
@@ -99,15 +104,23 @@ const Login: React.FC<ILogin> = () => {
                     }}>{successfulLogIn}</span>
                     : ""
             }
-            <FormBuilder
-                takeData={(obj: object) => takeDataFromFormBuilder(obj)}
-                config={formConfig}
-                buttonText="Login"
-                formTitle="Login"
-                linkText="Forgot password"
-                link="/registration"
-                errorSingUp={errorSingUp}
-            />
+            <MainWrapper >
+                <Helmet>
+                    <title>Login page</title>
+                </Helmet>
+                <FormBuilder
+                    takeData={(obj: object) => takeDataFromFormBuilder(obj)}
+                    config={formConfig}
+                    buttonText="Login"
+                    formTitle="Login"
+                    linkText="Forgot password"
+                    link="/registration"
+                    errorSingUp={errorSingUp}
+                />
+
+            </MainWrapper>
+
+
 
         </div >
     );
