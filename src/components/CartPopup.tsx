@@ -1,29 +1,51 @@
 import React from 'react';
-import { FiMinus, FiPlus, FiX } from 'react-icons/fi';
-import { MainWrapper } from '.';
+import { FaShoppingCart } from 'react-icons/fa';
 
-const CartPopup = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { CartPopupItem, MainWrapper } from '.';
+
+interface ICartPopupProps {
+    closePopup: any
+}
+
+const CartPopup: React.FC<ICartPopupProps> = ({ closePopup }) => {
+    const dispatch = useDispatch()
+    const cart = useSelector(({ app }: any) => app.cart)
+
+    const people: Array<string> = Object.keys(cart.people)
+    const starships: Array<string> = Object.keys(cart.starships)
+
     return (
 
-        <MainWrapper>
-            <section className="cart-popup__items-wrapper">
-                <h3 className="cart-popup__section-title"></h3>
-                <ul className="cart-popup__item-cards">
-                    <li className="cart-popup__card">
-                        <button className="cart-popup__button-delete"><FiX/></button>
-                        <p className="cart-popup__card-img">
-                            <img src="" alt="" />
-                            <div className="cart-popup__card-count-wrapper">
-                                <button className="cart-popup__button"><FiMinus/></button><span className="cart-popup__card-count">12</span><button className="cart-popup__button"><FiPlus/></button>
-                            </div>
-                        </p>
-                        <ul className="cart-popup__card-data">
-                            <li className="cart-popup__card-data-title"></li>
-                            <li className="cart-popup__card-data-descr"></li>
-                        </ul>
-                    </li>
-                </ul>
-            </section>
+        <MainWrapper title="Cart" classSection="cart-popup__wrapper" closePopup={closePopup}>
+            {people.length === 0 && starships.length === 0
+                && <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    height: "400px",
+                    justifyContent: "center"
+                }}>
+                    <FaShoppingCart style={{ transform: "scale(2.3)" }} fill='#3f3f3f' />
+                    <p style={{
+                        padding: "20px",
+                        fontSize: "20px",
+                        fontWeight: "bold"
+                    }}>Cart is empty</p >
+                </div>}
+            {
+                people.length > 0 && <section className="cart-popup__items-wrapper">
+                    <h3 className="cart-popup__section-title">People</h3>
+                    {people.map((item: any, index: number) => <CartPopupItem itemObj={{ data: cart.people[item], type: 'people' }} key={`${index}+${item}`} />)}
+                </section>
+            }
+
+            {
+                starships.length > 0 && <section className="cart-popup__items-wrapper">
+                    <h3 className="cart-popup__section-title">Star ships</h3>
+                    {starships.map((item: any, index: number) => <CartPopupItem itemObj={{ data: cart.starships[item], type: 'starship' }} key={`${index}+${item}`} />)}
+                </section>
+            }
         </MainWrapper >
     );
 };

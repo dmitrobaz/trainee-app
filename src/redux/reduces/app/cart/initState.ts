@@ -1,4 +1,4 @@
 export const initState = {
-        people: [],
-        starships: []
-    }
+    people: {},
+    starships: {}
+}

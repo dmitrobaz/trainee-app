@@ -11,6 +11,9 @@ export { default as PeopleCard } from './PeopleCard';
 export { default as NavButtons } from './NavButtons';
 export { default as Loading } from './Loading';
 export { default as ShowInfo } from './ShowInfo';
+export { default as CartPopupItem } from './CartPopupItem';
+
+
 
 
 

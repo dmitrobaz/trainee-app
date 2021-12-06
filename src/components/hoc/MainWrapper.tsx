@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { FiArrowLeft, FiList, FiLogOut, FiSquare } from 'react-icons/fi';
 
-import { Link } from 'react-router-dom';
 import { NavButtons } from '..';
 
 interface IMainProps {
@@ -10,10 +8,14 @@ interface IMainProps {
     classSection?: string,
     classContent?: string,
     linkArrowLeft?: string,
-    onClick?: any
+    onClick?: any,
+    closePopup?: any
 }
 
-const MainWrapper: React.FC<IMainProps> = ({ children, title, classSection = 'product', classContent = 'product-wrapper', onClick, linkArrowLeft }) => {
+const MainWrapper: React.FC<IMainProps> = ({
+    children, title, classSection = 'product',
+    classContent = 'product-wrapper', onClick,
+    linkArrowLeft, closePopup }) => {
 
     const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleLisCard') || '{}') || false)
 
@@ -27,7 +29,7 @@ const MainWrapper: React.FC<IMainProps> = ({ children, title, classSection = 'pr
         <section className={classSection}>
             <header className="product-header">
                 <h1>{title}</h1>
-                <NavButtons onClick={onClickNavButton} view={view} linkArrowLeft={linkArrowLeft} />
+                <NavButtons onClick={onClickNavButton} view={view} linkArrowLeft={linkArrowLeft} closePopup={closePopup} />
             </header>
             <main className={classContent}>
                 {children}

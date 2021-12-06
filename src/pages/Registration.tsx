@@ -7,7 +7,8 @@ import { FormBuilder, MainWrapper } from '../components';
 
 import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
-import { addUserToStore } from "../redux/actions/app";
+import { addUserToStore } from '../redux/actions/app/users';
+
 
 
 

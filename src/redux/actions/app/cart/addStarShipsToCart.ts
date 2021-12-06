@@ -1,4 +1,4 @@
-import { cart } from "../../types"
+import { cart } from "../../../types"
 
 interface IPayload {
     [key: string]: any

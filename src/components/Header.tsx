@@ -8,9 +8,15 @@ const Header: React.FC = () => {
     // applicationStates contains key "users"  - all registered users and key "cart"- all added items to the cart.
     const appDataStates = useSelector(({ app }: any) => app)
 
-    const peopleCount = appDataStates.cart.people.length
-    const starShipsCount = appDataStates.cart.starships.length
+    const peopleKeys = Object.keys(appDataStates.cart.people)
+    const starShipKeys = Object.keys(appDataStates.cart.starships)
+
+    const peopleCount = peopleKeys.reduce((acc: any, curr: any) => appDataStates.cart.people[curr] ? appDataStates.cart.people[curr].length + acc : 0, 0)
+
+    const starShipsCount = starShipKeys.reduce((acc: any, curr: any) => appDataStates.cart.starships[curr] ? appDataStates.cart.starships[curr].length + acc : 0, 0)
+
     const totalItemCount = peopleCount + starShipsCount
+
 
     return (
         <header className="header">
@@ -24,6 +30,7 @@ const Header: React.FC = () => {
                 peopleCount={peopleCount}
                 starShipsCount={starShipsCount}
             />
+
         </header>
     );
 };

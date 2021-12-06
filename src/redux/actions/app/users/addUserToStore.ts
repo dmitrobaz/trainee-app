@@ -1,4 +1,4 @@
-import { user } from "../../types"
+import { user } from "../../../types"
 
 interface IPayload {
     [key: string]: any

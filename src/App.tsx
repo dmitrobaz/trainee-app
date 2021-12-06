@@ -16,19 +16,16 @@ const App: React.FC = ({ children }) => {
     const auth: any = parseDataFromLS(localStorage.getItem('auth')) ? parseDataFromLS(localStorage.getItem('auth')) : false
     const starShipsCount = parseDataFromLS(localStorage.getItem('starShipCardsData'))
     const peopleCardsData = parseDataFromLS(localStorage.getItem('peopleCardsData'))
-    console.log(auth);
 
     // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
     const isAuthenticated = useSelector(({ app }: any) => app.states.isAuthenticated)
 
-    useEffect(() => console.log('1')
-        , [auth])
 
-    useEffect(() => {
-        peopleCardsData && peopleCardsData.forEach((item: any) => dispatch(addPeopleToCart(item)))
-        starShipsCount && starShipsCount.forEach((item: any) => dispatch(addStarShipsToCart(item)))
-    }, [])
+    // useEffect(() => {
+    //     peopleCardsData && peopleCardsData.forEach((item: any) => dispatch(addPeopleToCart(item)))
+    //     starShipsCount && starShipsCount.forEach((item: any) => dispatch(addStarShipsToCart(item)))
+    // }, [])
     return (
         <>
             <Helmet>

@@ -10,7 +10,6 @@ interface IRouteProps {
 }
 
 const Route: React.FC<IRouteProps> = ({ isAuthenticated }) => {
-  console.log('isAuthenticated', isAuthenticated);
 
   return (
     <Switch>

@@ -44,7 +44,7 @@ const Peolpe: React.FC = () => {
                     {peopleStore.status === 'success'
                         ? peopleStore.data.results.map((item: any, id: number) =>
                             <PeopleCard
-                                descr={item}
+                                currentCardData={item}
                                 img={`${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`}
                                 styleCard={view}
                                 key={id}

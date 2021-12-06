@@ -6,7 +6,8 @@ import { Helmet } from "react-helmet";
 import { FormBuilder, MainWrapper } from '../components';
 
 import { loginConfig as formConfig } from '../config/configForLoginForm';
-import { setAuthenticated } from '../redux/actions/app';
+import { setAuthenticated } from '../redux/actions/app/states';
+
 
 
 interface ILogin {

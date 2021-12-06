@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header, MainWrapper, ProductCard } from '../components';
 
-import { clearCart } from "../redux/actions/clearCart"
+import { clearCart } from "../redux/actions/app/cart/clearCart"
 const Cart = () => {
     const dispatch = useDispatch()
     const cartData = useSelector(({ app }: any) => app.cart)
