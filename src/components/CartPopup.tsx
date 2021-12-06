@@ -8,7 +8,7 @@ interface ICartPopupProps {
     closePopup: any
 }
 
-const CartPopup: React.FC<ICartPopupProps> = ({ closePopup }) => {
+const CartPopup: React.FC<ICartPopupProps> = React.memo(function CartPopup({ closePopup }) {
     const dispatch = useDispatch()
     const cart = useSelector(({ app }: any) => app.cart)
 
@@ -48,6 +48,6 @@ const CartPopup: React.FC<ICartPopupProps> = ({ closePopup }) => {
             }
         </MainWrapper >
     );
-};
+})
 
 export default CartPopup;

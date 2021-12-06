@@ -89,9 +89,7 @@ export const cart = (state: any = initState, action: any) => {
                 starships: { ...state.starships, [action.payload.data[0].name]: newObjItems }
             }
         }
-
-        case cartTypes.CLEAR_CART:
-            return initState
+        case cartTypes.CLEAR_CART: return initState
         default: return state
     }
 }

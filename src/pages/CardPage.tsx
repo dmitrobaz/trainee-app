@@ -30,8 +30,13 @@ const CardPage: React.FC = () => {
     const randomPeopleImg = imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default
     const randomStarShipImg = imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)].default
 
+    const portal = document.getElementById('portal')
+
 
     useEffect(() => {
+        portal?.classList.remove('portal-bg-faded')
+
+
         currentPageUrl.includes('people')
             ? dispatch(getOnePeopleResponse.get(itemRequestUrl))
             : dispatch(getOneStarShipResponse.get(itemRequestUrl))
