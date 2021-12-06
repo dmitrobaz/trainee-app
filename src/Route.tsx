@@ -13,10 +13,10 @@ const Route: React.FC<IRouteProps> = ({ isAuthenticated }) => {
 
   return (
     <Switch>
-      {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />}
+      {/* {isAuthenticated ? <Redirect from='/login' to="/products" /> : <Redirect from='/products' to="/login" />} */}
       <ReactRoute path="/test" component={Loading} exact />
       <ReactRoute path="/cart" component={Cart} />
-      <ReactRoute path="/" component={Navigation} exact />
+      <ReactRoute path="/" component={Products} exact />
       <ReactRoute path="/login" component={Login} />
       <ReactRoute path="/registration" component={Registration} />
       <ReactRoute path="/products" component={Products} exact />
