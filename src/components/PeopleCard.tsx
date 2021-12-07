@@ -17,12 +17,14 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
 
     const dispatch = useDispatch()
 
+    const peopleId = currentCardData.url.split('/')[5]
+
     const memoImg = useMemo(() => {
         return img
     }, [])
 
     const onAddToCart = () => {
-        dispatch(addPeopleToCart(currentCardData))
+        dispatch(addPeopleToCart({ data: currentCardData, id: peopleId }))
 
         const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('peopleCardsData'))
 
@@ -39,7 +41,7 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
         <li className='product__item'>
             <Link to={{
                 pathname: "/products/people/card",
-                search: `?req=${currentCardData.url}`
+                search: `?id=${peopleId}`
             }}></Link >
 
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>

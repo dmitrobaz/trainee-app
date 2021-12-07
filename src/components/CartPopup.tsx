@@ -12,13 +12,13 @@ const CartPopup: React.FC<ICartPopupProps> = React.memo(function CartPopup({ clo
     const dispatch = useDispatch()
     const cart = useSelector(({ app }: any) => app.cart)
 
-    const people: Array<string> = Object.keys(cart.people)
-    const starships: Array<string> = Object.keys(cart.starships)
+    const people: Array<string> | null = cart.people.peopleTotalCount === 0 ? null : Object.keys(cart.people).slice(0, -1)
+    const starships: Array<string> | null = cart.starships.starShipTotalCount === 0 ? null : Object.keys(cart.starships).slice(0, -1)
 
     return (
 
         <MainWrapper title="Cart" classSection="cart-popup__wrapper" closePopup={closePopup}>
-            {people.length === 0 && starships.length === 0
+            {!people && !starships
                 && <div style={{
                     display: "flex",
                     flexDirection: "column",
@@ -34,16 +34,16 @@ const CartPopup: React.FC<ICartPopupProps> = React.memo(function CartPopup({ clo
                     }}>Cart is empty</p >
                 </div>}
             {
-                people.length > 0 && <section className="cart-popup__items-wrapper">
+                people && <section className="cart-popup__items-wrapper">
                     <h3 className="cart-popup__section-title">People</h3>
-                    {people.map((item: any, index: number) => <CartPopupItem itemObj={{ data: cart.people[item], type: 'people' }} key={`${index}+${item}`} />)}
+                    {people.map((item: any, index: number) => <CartPopupItem typeItem='people' dataItem={cart.people[item].data} key={`${index}+${item}`} />)}
                 </section>
             }
 
             {
-                starships.length > 0 && <section className="cart-popup__items-wrapper">
+                starships && <section className="cart-popup__items-wrapper">
                     <h3 className="cart-popup__section-title">Star ships</h3>
-                    {starships.map((item: any, index: number) => <CartPopupItem itemObj={{ data: cart.starships[item], type: 'starship' }} key={`${index}+${item}`} />)}
+                    {starships.map((item: any, index: number) => <CartPopupItem typeItem='starship' dataItem={cart.starships[item].data} key={`${index}+${item}`} />)}
                 </section>
             }
         </MainWrapper >

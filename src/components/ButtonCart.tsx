@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 
+import CartPopup from './CartPopup';
 
 import { RiSpaceShipFill } from 'react-icons/ri';
 import { BsPeopleFill } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
-import CartPopup from './CartPopup';
-import { createPortal } from 'react-dom';
 
 interface IButtonProps {
     totalCount?: number,
@@ -17,18 +17,14 @@ interface IButtonProps {
 const ButtonCart: React.FC<IButtonProps> = ({ totalCount = 0, peopleCount = 0, starShipsCount = 0 }) => {
     const [active, setActive] = useState<boolean>(false)
     const [showCartPopup, setShowCartPopup] = useState<boolean>(false)
-    const portalId: any = document.getElementById('portal')
 
-    const history = useHistory()
     const sortRef: any = useRef();
 
-    const portal = document.getElementById('portal')
-
+    const portalId: any = document.getElementById('portal')
 
     useEffect(() => {
         document.body.addEventListener('click', handleOutsideClick);
     }, []);
-
 
     const handleOutsideClick = (event: any) => {
         const path = event.path || (event.composedPath && event.composedPath());
@@ -39,20 +35,19 @@ const ButtonCart: React.FC<IButtonProps> = ({ totalCount = 0, peopleCount = 0, s
 
     const onClickButton = (e: any) => {
         setShowCartPopup(!showCartPopup)
-        portal?.classList.add('portal-bg-faded')
+        portalId?.classList.add('portal-bg-faded')
 
     }
 
     const closePopup = () => {
         setShowCartPopup(!showCartPopup)
-        portal?.classList.remove('portal-bg-faded')
+        portalId?.classList.remove('portal-bg-faded')
 
     }
 
     return (
         <>
-            {/* onMouseEnter={() => totalCount && totalCount > 0 && setActive(true)} */}
-            <button onClick={(e) => onClickButton(e)} className="button-cart__item button-cart">
+            <button onMouseEnter={() => totalCount && totalCount > 0 && setActive(true)} onClick={(e) => onClickButton(e)} className="button-cart__item button-cart">
                 {(totalCount !== 0) && <span className="button-cart__item-count">{totalCount}</span>}
                 <FaShoppingCart style={{ transform: "scale(2.3)" }} fill='#3f3f3f' />
             </button>
@@ -60,7 +55,7 @@ const ButtonCart: React.FC<IButtonProps> = ({ totalCount = 0, peopleCount = 0, s
                 createPortal(<CartPopup closePopup={closePopup} />, portalId)
             }
 
-            {/* {active &&
+            {active &&
                 <ul ref={sortRef} className="button-cart__popup">
 
                     <li className="button-cart__popup-item">
@@ -72,7 +67,7 @@ const ButtonCart: React.FC<IButtonProps> = ({ totalCount = 0, peopleCount = 0, s
                         <BsPeopleFill style={{ transform: "scale(2.3)", marginRight: "20px" }} fill='#3f3f3f' />
                     </li>
                 </ul>
-            } */}
+            }
             {/* {active && (totalCount && totalCount > 0)
 
                 ? <button

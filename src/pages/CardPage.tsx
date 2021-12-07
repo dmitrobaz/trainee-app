@@ -26,20 +26,21 @@ const CardPage: React.FC = () => {
 
     const currentPageUrl = useLocation().pathname
     const itemRequestUrl = useLocation().search.split('=')[1]
+    const typePage = useLocation().props
+    console.log('itemRequestUrl', itemRequestUrl);
+
 
     const memoPeopleImg = useMemo(() => imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default, [])
     const memoStarShipImg = useMemo(() => imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)].default, [])
 
     const portal = document.getElementById('portal')
 
-
     useEffect(() => {
         portal?.classList.remove('portal-bg-faded')
 
-
         currentPageUrl.includes('people')
-            ? dispatch(getOnePeopleResponse.get(itemRequestUrl))
-            : dispatch(getOneStarShipResponse.get(itemRequestUrl))
+            ? dispatch(getOnePeopleResponse.get(`https://swapi.dev/api/people/${itemRequestUrl}/`))
+            : dispatch(getOneStarShipResponse.get(`https://swapi.dev/api/starships/${itemRequestUrl}/`))
     }, [])
 
     const onAddToCart = () => {

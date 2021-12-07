@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { NavButtons } from '..';
+import { NavButtons } from '../components';
 
 interface IMainProps {
     children?: any,

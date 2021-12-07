@@ -1,19 +1,45 @@
 import React, { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
+
 import { FiArrowDown, FiArrowRight, FiMinus, FiPlus, FiX } from 'react-icons/fi';
 
 import { imagesPeople, imagesStarShips } from '../assets/img';
-import { clearOnePeopleItemCart, clearOneStarShipItemCart } from '../redux/actions/app/';
 
-import { minusOnePeopleFromCart, plusOnePeopleToCart, plusOneStarShipToCart, minusOneStarShipFromCart } from "../redux/actions/app/cart"
+import {
+    minusOnePeopleFromCart, plusOnePeopleToCart,
+    plusOneStarShipToCart, minusOneStarShipFromCart,
+    clearOnePeopleItemCart, clearOneStarShipItemCart
+} from "../redux/actions/app";
 
 interface ICartPopupItemProps {
-    itemObj: { [key: string]: any }
+    dataItem: { [key: string]: any }
+    typeItem: string
 
 }
-const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPopupItem({ itemObj }) {
+const CartPopupItem: React.FC<ICartPopupItemProps> = ({ dataItem, typeItem }) => {
     const dispatch = useDispatch()
+    const itemCount = useSelector(({ app }: any) => typeItem === 'people' ? app.cart.people[itemId].count : app.cart.starships[itemId].count)
+
+    const itemId = dataItem.url.split('/')[5]
+    const itemTitle = dataItem.name
+    const itemUrl = dataItem.url
+
+    const starShipCharacteristic: { [name: string]: string } = {
+        model: dataItem.model,
+        manufacturer: dataItem.manufacturer,
+        cost: dataItem.cost_in_credits,
+        length: dataItem.length,
+        speed: dataItem.max_atmosphering_speed,
+        crew: dataItem.crew,
+        passengers: dataItem.passengers,
+        cargo: dataItem.cargo_capacity,
+        consumables: dataItem.consumables,
+        hyperdrive: dataItem.hyperdrive_rating,
+        mglt: dataItem.MGLT,
+        class: dataItem.starship_class,
+        url: dataItem.url
+    }
 
     const randomPeopleImg = useMemo(() => {
         return `${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`
@@ -22,45 +48,23 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPop
         return `${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`
     }, [])
 
-    const itemCount = itemObj.data.length
-    const itemTitle = itemObj.data[0].name
-    const itemUrl = itemObj.data[0].url
-
-    const starShipCharacteristic: { [name: string]: string } = {
-        model: itemObj.data[0].model,
-        manufacturer: itemObj.data[0].manufacturer,
-        cost: itemObj.data[0].cost_in_credits,
-        length: itemObj.data[0].length,
-        speed: itemObj.data[0].max_atmosphering_speed,
-        crew: itemObj.data[0].crew,
-        passengers: itemObj.data[0].passengers,
-        cargo: itemObj.data[0].cargo_capacity,
-        consumables: itemObj.data[0].consumables,
-        hyperdrive: itemObj.data[0].hyperdrive_rating,
-        mglt: itemObj.data[0].MGLT,
-        class: itemObj.data[0].starship_class,
-        url: itemObj.data[0].url
+    const onDecreaseItem = () => {
+        typeItem === "people"
+            ? itemCount > 1 && dispatch(minusOnePeopleFromCart({ data: dataItem, id: itemId }))
+            : itemCount > 1 && dispatch(minusOneStarShipFromCart({ data: dataItem, id: itemId }))
     }
 
-    const OnDecreaseItem = () => {
-        itemObj.type === "people"
-            ? dispatch(minusOnePeopleFromCart(itemObj))
-            : dispatch(minusOneStarShipFromCart(itemObj))
-
-    }
-
-    const OnIncreaseItem = () => {
-        itemObj.type === "people"
-            ? dispatch(plusOnePeopleToCart(itemObj))
-            : dispatch(plusOneStarShipToCart(itemObj))
-
+    const onIncreaseItem = () => {
+        typeItem === "people"
+            ? itemCount < 99 && dispatch(plusOnePeopleToCart({ data: dataItem, id: itemId }))
+            : itemCount < 99 && dispatch(plusOneStarShipToCart({ data: dataItem, id: itemId }))
     }
 
     const onDeleteItem = () => {
 
-        itemObj.type === "people"
-            ? dispatch(clearOnePeopleItemCart(itemObj.data[0].name))
-            : dispatch(clearOneStarShipItemCart(itemObj.data[0].name))
+        typeItem === "people"
+            ? dispatch(clearOnePeopleItemCart(itemId))
+            : dispatch(clearOneStarShipItemCart(itemId))
     }
 
     return (
@@ -69,12 +73,12 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPop
                 <li className="cart-popup__card">
                     <button onClick={onDeleteItem} className="cart-popup__button cart-popup__button-delete"><FiX /></button>
                     <p className="cart-popup__card-img-wrapper">
-                        <img className="cart-popup__card-img" src={itemObj.type === "people" ? randomPeopleImg : randomStarShipImg} alt="" />
+                        <img className="cart-popup__card-img" src={typeItem === "people" ? randomPeopleImg : randomStarShipImg} alt="" />
                         <div className="cart-popup__card-count-wrapper">
-                            <button onClick={OnDecreaseItem} className="cart-popup__button"><FiMinus /></button><span className="cart-popup__card-count">{itemCount}</span><button onClick={OnIncreaseItem} className="cart-popup__button"><FiPlus /></button>
+                            <button onClick={onDecreaseItem} className="cart-popup__button"><FiMinus /></button><span className="cart-popup__card-count">{itemCount}</span><button onClick={onIncreaseItem} className="cart-popup__button"><FiPlus /></button>
                         </div>
                     </p>
-                    {itemObj.type === "people"
+                    {typeItem === "people"
                         ? <ul className="cart-popup__card-data">
                             <li className="cart-popup__card-data-title">{itemTitle}</li>
                             <li className="cart-popup__card-data-descr">
@@ -93,14 +97,15 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPop
                                     </li>)}</details>
                         </ul>}
                     <Link className="cart-popup__button cart-popup__button-go-card" to={{
-                        pathname: "/products/people/card",
-                        search: `?req=${itemUrl}`
+                        pathname: typeItem === 'people' ? "/products/people/card" : "/products/starships/card",
+                        search: `?id=${itemId}`,
+                        props: typeItem
                     }}>Go to card <FiArrowRight /></Link >
                 </li>
             </ul>
         </>
     );
-})
+}
 
 
 export default CartPopupItem;

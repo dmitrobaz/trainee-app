@@ -22,10 +22,10 @@ const App: React.FC = ({ children }) => {
     const isAuthenticated = useSelector(({ app }: any) => app.states.isAuthenticated)
 
 
-    useEffect(() => {
-        peopleCardsDataLS && peopleCardsDataLS.forEach((item: any) => dispatch(addPeopleToCart(item)))
-        starShipsCardDataLS && starShipsCardDataLS.forEach((item: any) => dispatch(addStarShipsToCart(item)))
-    }, [])
+    // useEffect(() => {
+    //     peopleCardsDataLS && peopleCardsDataLS.forEach((item: any) => dispatch(addPeopleToCart(item)))
+    //     starShipsCardDataLS && starShipsCardDataLS.forEach((item: any) => dispatch(addStarShipsToCart(item)))
+    // }, [])
     return (
         <>
             <Helmet>

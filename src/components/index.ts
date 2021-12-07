@@ -5,7 +5,7 @@ export { default as ItemCard } from './ItemCard';
 export { default as MyLoader } from './MyLoader';
 export { default as ButtonCart } from './ButtonCart';
 export { default as Header } from './Header';
-export { default as MainWrapper } from './hoc/MainWrapper';
+export { default as MainWrapper } from '../HOC/MainWrapper';
 export { default as StarShipsCard } from './StarShipsCard';
 export { default as PeopleCard } from './PeopleCard';
 export { default as NavButtons } from './NavButtons';

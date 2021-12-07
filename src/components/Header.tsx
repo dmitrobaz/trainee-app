@@ -1,22 +1,17 @@
 import React from 'react';
-import { AiFillHome } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { ButtonCart } from '.';
+
+import { ButtonCart } from '../components';
+
+import { AiFillHome } from 'react-icons/ai';
 
 const Header: React.FC = () => {
-    // applicationStates contains key "users"  - all registered users and key "cart"- all added items to the cart.
-    const appDataStates = useSelector(({ app }: any) => app)
+    const cartSelector = useSelector(({ app }: any) => app.cart)
 
-    const peopleKeys = Object.keys(appDataStates.cart.people)
-    const starShipKeys = Object.keys(appDataStates.cart.starships)
-
-    const peopleCount = peopleKeys.reduce((acc: any, curr: any) => appDataStates.cart.people[curr] ? appDataStates.cart.people[curr].length + acc : 0, 0)
-
-    const starShipsCount = starShipKeys.reduce((acc: any, curr: any) => appDataStates.cart.starships[curr] ? appDataStates.cart.starships[curr].length + acc : 0, 0)
-
+    const peopleCount = cartSelector.people.peopleTotalCount
+    const starShipsCount = cartSelector.starships.starShipTotalCount
     const totalItemCount = peopleCount + starShipsCount
-
 
     return (
         <header className="header">

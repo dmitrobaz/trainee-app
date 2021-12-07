@@ -29,6 +29,7 @@ const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft, c
         localStorage.removeItem('starShipCardsData')
 
         dispatch(clearCart())
+        closePopup()
     }
 
     return (
