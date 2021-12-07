@@ -79,11 +79,11 @@
             align-items: center;
             justify-content: center;
             padding: 70px;
-            // background-color: $BORDER_INPUT_ERROR;
             border: 1px solid $BORDER_COLOR;
             border-radius: 5px;
             transition: 0.2s ease-in;
             position: relative;
+
             ul {
                 display: flex;
                 flex-direction: column;
@@ -154,7 +154,9 @@
             transition: 0.2s ease-in;
             width: 210px;
             height: 370px;
-
+            &-img {
+                max-width: 150px;
+            }
             &:hover {
                 & ~ .product__item-content {
                 }

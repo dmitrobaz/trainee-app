@@ -18,7 +18,9 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPop
     const randomPeopleImg = useMemo(() => {
         return `${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`
     }, [])
-    const randomStarShipImg = `${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`
+    const randomStarShipImg = useMemo(() => {
+        return `${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`
+    }, [])
 
     const itemCount = itemObj.data.length
     const itemTitle = itemObj.data[0].name
@@ -66,8 +68,8 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPop
             <ul className="cart-popup__item-cards">
                 <li className="cart-popup__card">
                     <button onClick={onDeleteItem} className="cart-popup__button cart-popup__button-delete"><FiX /></button>
-                    <p className="cart-popup__card-img">
-                        <img src={itemObj.type === "people" ? randomPeopleImg : randomStarShipImg} alt="" />
+                    <p className="cart-popup__card-img-wrapper">
+                        <img className="cart-popup__card-img" src={itemObj.type === "people" ? randomPeopleImg : randomStarShipImg} alt="" />
                         <div className="cart-popup__card-count-wrapper">
                             <button onClick={OnDecreaseItem} className="cart-popup__button"><FiMinus /></button><span className="cart-popup__card-count">{itemCount}</span><button onClick={OnIncreaseItem} className="cart-popup__button"><FiPlus /></button>
                         </div>

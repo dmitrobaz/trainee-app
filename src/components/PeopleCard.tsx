@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { addPeopleToCart } from '../redux/actions/app/';
 
 
 interface IPeopleCard {
-    img?: string,
+    img?: any,
     currentCardData: any,
     styleCard?: boolean
 }
@@ -16,6 +16,10 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
+
+    const memoImg = useMemo(() => {
+        return img
+    }, [])
 
     const onAddToCart = () => {
         dispatch(addPeopleToCart(currentCardData))
@@ -40,7 +44,7 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
 
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
                 <p>
-                    <img src={img} alt="Star Wars character image" />
+                    <img className="product__item-content-img" src={memoImg} alt="Star Wars character image" />
                 </p>
                 <div>
                     <ul className={styleCard ? 'product__item-currentCardData-list' : ''}>

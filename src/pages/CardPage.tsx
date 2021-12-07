@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -27,8 +27,8 @@ const CardPage: React.FC = () => {
     const currentPageUrl = useLocation().pathname
     const itemRequestUrl = useLocation().search.split('=')[1]
 
-    const randomPeopleImg = imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default
-    const randomStarShipImg = imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)].default
+    const memoPeopleImg = useMemo(() => imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default, [])
+    const memoStarShipImg = useMemo(() => imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)].default, [])
 
     const portal = document.getElementById('portal')
 
@@ -90,7 +90,7 @@ const CardPage: React.FC = () => {
                     ? <MainWrapper title={peopleData.name} linkArrowLeft="/products/people" classContent="card">
                         <div className="card__item">
                             <p className='card__item-img'>
-                                <img src={randomPeopleImg} alt="Star Wars character image" />
+                                <img src={memoPeopleImg} alt="Star Wars character image" />
                             </p>
                             <div>
                                 <h3 className="card__item-title">{`${peopleData.name}`}</h3>
@@ -114,7 +114,7 @@ const CardPage: React.FC = () => {
                     : <MainWrapper title={starShipsData.name} linkArrowLeft="/products/starships" classContent="card">
                         <div className="card__item">
                             <p className='card__item-img'>
-                                <img src={randomStarShipImg} alt="Star Wars character image" />
+                                <img src={memoStarShipImg} alt="Star Wars character image" />
                             </p>
                             <div>
                                 <ul className='card__item-content'>

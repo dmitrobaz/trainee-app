@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
@@ -18,6 +18,10 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
+
+    const memoImg = useMemo(() => {
+        return img
+    }, [])
 
     const clickHandler = () => {
         dispatch(addStarShipsToCart(currentCardData))
@@ -41,7 +45,7 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
             }}></Link >
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
                 <p>
-                    <img src={img} alt="Space ship image" />
+                    <img className="product__item-content-img" src={memoImg} alt="Space ship image" />
                 </p>
                 <section>
                     <h4>{`${currentCardData.name}`}</h4>
