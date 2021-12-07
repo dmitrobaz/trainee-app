@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import { FiArrowDown, FiArrowRight, FiMinus, FiPlus, FiX } from 'react-icons/fi';
@@ -15,7 +15,9 @@ interface ICartPopupItemProps {
 const CartPopupItem: React.FC<ICartPopupItemProps> = React.memo(function CartPopupItem({ itemObj }) {
     const dispatch = useDispatch()
 
-    const randomPeopleImg = `${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`
+    const randomPeopleImg = useMemo(() => {
+        return `${imagesPeople[Math.floor(Math.random() * imagesPeople.length)]}`
+    }, [])
     const randomStarShipImg = `${imagesStarShips[Math.floor(Math.random() * imagesStarShips.length)]}`
 
     const itemCount = itemObj.data.length
