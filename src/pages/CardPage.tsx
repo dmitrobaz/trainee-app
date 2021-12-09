@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -12,22 +12,33 @@ import { imagesPeopleBig, imagesStarShipsBig } from '../assets/img';
 
 
 const CardPage: React.FC = () => {
+    const [isItemAdded, setIsItemAdded] = useState<boolean>(false)
+
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
     const responseData: any = useSelector(({ request }: any) => request)
 
+    const cartData: any = useSelector(({ app }: any) => app.cart)
+
+
     const peopleData = responseData.people.data?.results[0]
+    const peopleId = peopleData?.url.split('/')[5]
     const peopleStatus = responseData.people.status
 
-    const starShipsData = responseData.starships.data?.results[0]
+    const starShipData = responseData.starships.data?.results[0]
+    const starShipId = starShipData?.url.split('/')[5]
     const starShipsStatus = responseData.starships.status
 
 
     const currentPageUrl = useLocation().pathname
     const itemRequestUrl = useLocation().search.split('=')[1]
-    const typePage = useLocation().props
-    console.log('itemRequestUrl', itemRequestUrl);
+    const isPeoplePage = currentPageUrl.includes('people')
+
+    const isItemExistInStore = isPeoplePage
+        ? cartData.people.peopleTotalCount && cartData.people[peopleId]?.count
+        : cartData.starships.starShipTotalCount && cartData.starships[starShipId]?.count
+
 
 
     const memoPeopleImg = useMemo(() => imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default, [])
@@ -36,16 +47,23 @@ const CardPage: React.FC = () => {
     const portal = document.getElementById('portal')
 
     useEffect(() => {
+
         portal?.classList.remove('portal-bg-faded')
 
         currentPageUrl.includes('people')
             ? dispatch(getOnePeopleResponse.get(`https://swapi.dev/api/people/${itemRequestUrl}/`))
             : dispatch(getOneStarShipResponse.get(`https://swapi.dev/api/starships/${itemRequestUrl}/`))
+
+        setIsItemAdded(isItemExistInStore)
+        console.log(isItemExistInStore);
+
+
     }, [])
 
     const onAddToCart = () => {
+        setIsItemAdded(true)
         if (currentPageUrl.includes('people')) {
-            dispatch(addPeopleToCart(peopleData))
+            dispatch(addPeopleToCart({ data: peopleData, id: peopleId }))
 
             const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('peopleCardsData'))
 
@@ -57,31 +75,32 @@ const CardPage: React.FC = () => {
                 localStorage.setItem('peopleCardsData', JSON.stringify([...currentPeopleDataFromLS, peopleData]))
                 return
 
-            } else {
-                dispatch(addStarShipsToCart(starShipsData))
-
-                const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('starShipCardsData'))
-
-                if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
-                    localStorage.setItem('starShipCardsData', JSON.stringify([starShipsData]))
-                    return
-                }
-                if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
-                    localStorage.setItem('starShipCardsData', JSON.stringify([...currentPeopleDataFromLS, starShipsData]))
-                    return
-                }
-
-
             }
-
-
         }
+
+        if (currentPageUrl.includes('starships')) {
+
+            dispatch(addStarShipsToCart({ data: starShipData, id: starShipId }))
+
+            const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('starShipCardsData'))
+
+            if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
+                localStorage.setItem('starShipCardsData', JSON.stringify([starShipData]))
+                return
+            }
+            if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
+                localStorage.setItem('starShipCardsData', JSON.stringify([...currentPeopleDataFromLS, starShipData]))
+                return
+            }
+        }
+
     }
+
 
     return (
         <>
             <Helmet>
-                <title>{currentPageUrl.includes('people') ? peopleData?.name : starShipsData?.name}</title>
+                <title>{currentPageUrl.includes('people') ? peopleData?.name : starShipData?.name}</title>
             </Helmet>
             <Header />
 
@@ -93,7 +112,10 @@ const CardPage: React.FC = () => {
                             <p className='card__item-img'>
                                 <img src={memoPeopleImg} alt="Star Wars character image" />
                             </p>
+                            <button onClick={onAddToCart} className={!isItemAdded ? "card__item-button" : "card__item-button card__item-button--added"}>{!isItemAdded ? 'Add to cart' : 'Added'}</button>
+
                             <div>
+
                                 <h3 className="card__item-title">{`${peopleData.name}`}</h3>
                                 <ul className='card__item-content'>
                                     <li className="card__item-descr">{`Gender: ${peopleData.gender}`}</li>
@@ -106,28 +128,27 @@ const CardPage: React.FC = () => {
                                 <br />
                                 <ShowInfo infoApiUrl={peopleData.films} />
                                 <p className="card__item-history">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, dolorum quisquam, quod quae nostrum obcaecati hic qui ducimus atque rerum, perferendis facilis neque praesentium sequi dolor officiis. Perferendis, praesentium possimus!</p>
-                                <button onClick={onAddToCart} className="card__item-button">Add to cart</button>
                             </div>
                         </div>
                     </MainWrapper>
                     // ================================================================================================
                     // CARD PAGE FOR STARSHIPS ========================================================================
-                    : <MainWrapper title={starShipsData.name} linkArrowLeft="/products/starships" classContent="card">
+                    : <MainWrapper title={starShipData.name} linkArrowLeft="/products/starships" classContent="card">
                         <div className="card__item">
                             <p className='card__item-img'>
                                 <img src={memoStarShipImg} alt="Star Wars character image" />
                             </p>
                             <div>
                                 <ul className='card__item-content'>
-                                    <li className="card__item-title">{`${starShipsData.name}`}</li>
-                                    <li className="product__item-descr">{`Model: ${starShipsData.model}`}</li>
-                                    <li className="product__item-descr">{`Cost: ${starShipsData.cost_in_credits} credits`}</li>
+                                    <li className="card__item-title">{`${starShipData.name}`}</li>
+                                    <li className="product__item-descr">{`Model: ${starShipData.model}`}</li>
+                                    <li className="product__item-descr">{`Cost: ${starShipData.cost_in_credits} credits`}</li>
                                 </ul>
                                 <br />
-                                <ShowInfo infoApiUrl={starShipsData.films} />
+                                <ShowInfo infoApiUrl={starShipData.films} />
 
                                 <p className="card__item-history">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, dolorum quisquam, quod quae nostrum obcaecati hic qui ducimus atque rerum, perferendis facilis neque praesentium sequi dolor officiis. Perferendis, praesentium possimus!</p>
-                                <button onClick={onAddToCart} className="card__item-button">Add to cart</button>
+                                <button onClick={onAddToCart} className={!isItemAdded ? "card__item-button" : "card__item-button card__item-button--added"}>{!isItemAdded ? 'Add to cart' : 'Added'}</button>
                             </div>
                         </div>
                     </MainWrapper>

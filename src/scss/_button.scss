@@ -1,5 +1,16 @@
 @import "./vars";
 
+.pos-fixed {
+    position: fixed;
+    right: 52px;
+    background: #ffc940;
+    &-popup {
+        position: fixed;
+        right: 120px;
+        top: 65px;
+    }
+}
+
 .button {
     &-show-info {
         border: none;

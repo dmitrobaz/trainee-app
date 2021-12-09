@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPeopleToCart, addStarShipsToCart } from './redux/actions/app';
+
 import Route from './Route';
 
-import './style.scss';
+import { addPeopleToCart, addStarShipsToCart } from './redux/actions/app';
+
+
+// import './style.scss';
 
 
 const App: React.FC = ({ children }) => {

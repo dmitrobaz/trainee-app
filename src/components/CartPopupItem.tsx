@@ -18,12 +18,12 @@ interface ICartPopupItemProps {
 
 }
 const CartPopupItem: React.FC<ICartPopupItemProps> = ({ dataItem, typeItem }) => {
-    const dispatch = useDispatch()
-    const itemCount = useSelector(({ app }: any) => typeItem === 'people' ? app.cart.people[itemId].count : app.cart.starships[itemId].count)
-
     const itemId = dataItem.url.split('/')[5]
     const itemTitle = dataItem.name
     const itemUrl = dataItem.url
+
+    const dispatch = useDispatch()
+    const itemCount = useSelector(({ app }: any) => typeItem === 'people' ? app.cart.people[itemId].count : app.cart.starships[itemId].count)
 
     const starShipCharacteristic: { [name: string]: string } = {
         model: dataItem.model,

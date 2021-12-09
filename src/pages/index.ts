@@ -6,6 +6,8 @@ export { default as Peolpe } from './Peolpe';
 export { default as StarShip } from './StarShip';
 export { default as Cart } from './Cart';
 export { default as CardPage } from './CardPage';
+export { default as Test } from './testpage/Test';
+
 
 
 

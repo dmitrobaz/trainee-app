@@ -13,9 +13,7 @@
             margin: 0 auto;
 
             img {
-                max-width: 600px;
                 width: 100%;
-                min-height: 300px;
             }
         }
         &-title {
@@ -26,12 +24,19 @@
         &-descr {
         }
         &-button {
+            // position: absolute;
+            // top: 520px;
+            // right: 88px;
             cursor: pointer;
-            font-size: 1.3em;
-            padding: 15px;
+            font-size: 1em;
+            padding: 10px;
             border: none;
             border-radius: 10px;
             background-color: $BGC_HEADER;
+            transition: 0.2s ease-in;
+            &--added {
+                background: #ff7a40;
+            }
         }
         &-history {
             margin: 25px 0 25px 0;

@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Link } from 'react-router-dom';
+
 import { addStarShipsToCart } from '../redux/actions/app';
-
-
 
 interface IStarShipsCard {
     img: string,
@@ -17,24 +15,21 @@ interface IStarShipsCard {
 const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCard }) => {
     const [isItemAdded, setIsItemAdded] = useState<boolean>(false)
 
-    const starshipsData = useSelector(({ app }: any) => app.cart.starships)
-    
-    const isItemExistInStore = starshipsData.starShipTotalCount && Object.keys(starshipsData).slice(0, -1).some((item: string) => item === currentCardData.url.split('/')[5])
-
-    console.log(isItemExistInStore);
-
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
+    const starshipsData = useSelector(({ app }: any) => app.cart.starships)
 
     const starShipId = currentCardData.url.split('/')[5]
 
-    const memoImg = useMemo(() => {
-        return img
-    }, [])
+    const isItemExistInStore = starshipsData.starShipTotalCount && starshipsData[starShipId]?.count
 
     useEffect(() => {
+        setIsItemAdded(isItemExistInStore)
+    }, [])
 
+    const memoImg = useMemo(() => {
+        return img
     }, [])
 
     const clickHandler = () => {
@@ -59,7 +54,7 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
                 search: `?id=${starShipId}`
             }}></Link >
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
-                <p>
+                <p className="product__item-content-img-wrapper">
                     <img className="product__item-content-img" src={memoImg} alt="Space ship image" />
                 </p>
                 <section>
@@ -68,7 +63,7 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
                         <li className="product__item-currentCardData">{`Model: ${currentCardData.model}`}</li>
                         <li className="product__item-currentCardData">{`Cost: ${currentCardData.cost_in_credits} credits`}</li>
                     </ul>
-                    <button onClick={clickHandler} className="product__item-button">{!isItemAdded ? 'Add to cart' : 'Added'}</button>
+                    <button onClick={clickHandler} className={!isItemAdded ? "product__item-button" : "product__item-button product__item-button--added"}>{!isItemAdded ? 'Add to cart' : 'Added'}</button>
 
                 </section>
             </div>

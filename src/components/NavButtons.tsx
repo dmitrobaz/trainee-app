@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
-
-import { FiArrowLeft, FiList, FiLogOut, FiSquare, FiTrash2, FiX } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 
 import { setAuthenticated } from '../redux/actions/app/states';
 import { clearCart } from '../redux/actions/app';
 
+import { FiArrowLeft, FiList, FiLogOut, FiSquare, FiTrash2, FiX } from 'react-icons/fi';
 
 interface INavButtonProps {
     view: boolean,
@@ -19,15 +18,15 @@ interface INavButtonProps {
 const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft, closePopup }) => {
     const dispatch: (obj: any) => void = useDispatch();
 
-    const history = useHistory()
     const location = useLocation()
+
     const logOut = () => {
         dispatch(setAuthenticated(false))
     }
+
     const onClearCart = () => {
         localStorage.removeItem('peopleCardsData')
         localStorage.removeItem('starShipCardsData')
-
         dispatch(clearCart())
         closePopup()
     }
