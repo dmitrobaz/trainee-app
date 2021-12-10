@@ -8,10 +8,7 @@ import { getPeopleResponse } from '../redux/actions/request';
 
 import { imagesPeople } from '../assets/img';
 
-
-
 const Peolpe: React.FC = () => {
-
     const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleListCard') || '{}') || false)
 
     const dispatch: any = useDispatch()
@@ -26,8 +23,6 @@ const Peolpe: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('isStyleListCard', JSON.stringify(view))
     }, [view])
-
-
 
     const clickHandler = () => {
         setView(!view)

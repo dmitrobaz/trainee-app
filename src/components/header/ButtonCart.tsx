@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
-import CartPopup from './CartPopup';
+import {CartPopup} from '../index';
 
 import { RiSpaceShipFill } from 'react-icons/ri';
 import { BsPeopleFill } from 'react-icons/bs';
@@ -47,7 +46,7 @@ const ButtonCart: React.FC<IButtonProps> = ({ totalCount = 0, peopleCount = 0, s
 
     return (
         <>
-            <button onMouseEnter={() => totalCount && totalCount > 0 && setActive(true)} onClick={(e) => onClickButton(e)} className="button-cart__item button-cart">
+            <button onMouseEnter={() => setActive(true)} onClick={(e) => onClickButton(e)} className="button-cart__item button-cart">
                 {(totalCount !== 0) && <span className="button-cart__item-count">{totalCount}</span>}
                 <FaShoppingCart style={{ transform: "scale(2.3)" }} fill='#3f3f3f' />
             </button>

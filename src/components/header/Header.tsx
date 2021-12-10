@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { ButtonCart } from '../components';
+import { ButtonCart } from '..';
 
 import { AiFillHome } from 'react-icons/ai';
 

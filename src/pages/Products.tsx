@@ -6,17 +6,12 @@ import { MyLoader, ProductCard, Header, MainWrapper } from '../components';
 
 import { getPeopleResponse, getStarShipsResponse } from '../redux/actions/request';
 
-
-
 const Products: React.FC = () => {
     const dispatch = useDispatch()
-
     const responseData: any = useSelector(({ request }: any) => request)
 
     const peopleStore = responseData.people
     const starShipsStore = responseData.starships
-
-    console.log(peopleStore, starShipsStore);
 
     useEffect(() => {
         dispatch(getPeopleResponse.get())

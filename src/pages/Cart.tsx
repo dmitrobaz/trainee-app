@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Header, MainWrapper, ProductCard } from '../components';
 
 import { clearCart } from "../redux/actions/app/cart/clearCart"
@@ -10,7 +11,6 @@ const Cart = () => {
 
     const totalPeopleCount = cartData.people && cartData.people.length
     const totalStarShipsCount = cartData.starships && cartData.starships.length
-
 
     const onClickClearCart = () => {
         const isConfirm: boolean = window.confirm('Are you sure you want to empty your cart?')

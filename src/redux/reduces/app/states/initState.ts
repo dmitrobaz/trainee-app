@@ -1,3 +1,3 @@
 export const initState = {
-    isAuthenticated: true
+    isAuthenticated: false
 }

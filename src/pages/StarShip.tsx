@@ -13,11 +13,9 @@ const StarShip: React.FC = () => {
     const [view, setView] = useState<boolean>(JSON.parse(localStorage.getItem('isStyleListCard') || '{}') || false)
 
     const dispatch = useDispatch()
-
     const responseData: any = useSelector(({ request }: any) => request)
 
     const starShipsStore = responseData.starships
-
 
     useEffect(() => {
         localStorage.setItem('isStyleListCard', JSON.stringify(view))

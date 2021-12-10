@@ -39,6 +39,12 @@ export const cart = (state: any = initState, action: any) => {
                 }
             }
         }
+        case cartTypes.ADD_DATA_TO_CART_FROM_LOCAL_STORAGE: {
+            const dataFromLocalStorage = action.payload
+            const isStoreEmpty = state.people.peopleTotalCount === 0 && state.starships.starShipTotalCount === 0
+
+            return isStoreEmpty && dataFromLocalStorage
+        }
         case cartTypes.CLEAR_ONE_PEOPLE_ITEM_CART: {
             const newItems = {
                 ...state.people,
@@ -77,7 +83,7 @@ export const cart = (state: any = initState, action: any) => {
                     ...state.people,
                     [action.payload.id]: newObjItems,
                     peopleTotalCount: getTotalCount(state.people)
-                },
+                }
             }
         }
         case cartTypes.MINUS_ONE_PEOPLE_FROM_CART: {

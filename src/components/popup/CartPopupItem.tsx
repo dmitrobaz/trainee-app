@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 import { FiArrowDown, FiArrowRight, FiMinus, FiPlus, FiX } from 'react-icons/fi';
 
-import { imagesPeople, imagesStarShips } from '../assets/img';
+import { imagesPeople, imagesStarShips } from '../../assets/img';
 
 import {
     minusOnePeopleFromCart, plusOnePeopleToCart,
     plusOneStarShipToCart, minusOneStarShipFromCart,
     clearOnePeopleItemCart, clearOneStarShipItemCart
-} from "../redux/actions/app";
+} from "../../redux/actions/app";
+
+import * as utils from "../../utils";
 
 interface ICartPopupItemProps {
     dataItem: { [key: string]: any }
@@ -18,12 +20,14 @@ interface ICartPopupItemProps {
 
 }
 const CartPopupItem: React.FC<ICartPopupItemProps> = ({ dataItem, typeItem }) => {
-    const dispatch = useDispatch()
-    const itemCount = useSelector(({ app }: any) => typeItem === 'people' ? app.cart.people[itemId].count : app.cart.starships[itemId].count)
+    const cart = utils.jsonParse(localStorage.getItem('cart'))
 
     const itemId = dataItem.url.split('/')[5]
     const itemTitle = dataItem.name
     const itemUrl = dataItem.url
+
+    const dispatch = useDispatch()
+    const itemCount = useSelector(({ app }: any) => typeItem === 'people' ? app.cart.people[itemId].count : app.cart.starships[itemId].count)
 
     const starShipCharacteristic: { [name: string]: string } = {
         model: dataItem.model,
@@ -49,22 +53,100 @@ const CartPopupItem: React.FC<ICartPopupItemProps> = ({ dataItem, typeItem }) =>
     }, [])
 
     const onDecreaseItem = () => {
-        typeItem === "people"
-            ? itemCount > 1 && dispatch(minusOnePeopleFromCart({ data: dataItem, id: itemId }))
-            : itemCount > 1 && dispatch(minusOneStarShipFromCart({ data: dataItem, id: itemId }))
+
+
+        if (typeItem === "people" && itemCount > 1) {
+            dispatch(minusOnePeopleFromCart({ data: dataItem, id: itemId }))
+            const oldItems = cart.people[itemId]
+            const newObjItems = oldItems.count > 1 ? { data: dataItem, count: cart.people[itemId].count - 1 } : oldItems;
+            localStorage.setItem('cart', JSON.stringify({
+                ...cart,
+                people: {
+                    ...cart.people,
+                    [itemId]: newObjItems,
+                    peopleTotalCount: cart.people.peopleTotalCount - 1
+                },
+            }))
+            return
+        }
+        if (typeItem === "starship" && itemCount > 1) {
+            dispatch(minusOneStarShipFromCart({ data: dataItem, id: itemId }))
+            const oldItems = cart.starships[itemId]
+            const newObjItems = oldItems.count > 1 ? { data: dataItem, count: cart.starships[itemId].count - 1 } : oldItems;
+            localStorage.setItem('cart', JSON.stringify({
+                ...cart,
+                starships: {
+                    ...cart.starships,
+                    [itemId]: newObjItems,
+                    starShipTotalCount: cart.starships.starShipTotalCount - 1
+                },
+            }))
+        }
+
+
     }
 
     const onIncreaseItem = () => {
-        typeItem === "people"
-            ? itemCount < 99 && dispatch(plusOnePeopleToCart({ data: dataItem, id: itemId }))
-            : itemCount < 99 && dispatch(plusOneStarShipToCart({ data: dataItem, id: itemId }))
+
+        if (typeItem === "people" && itemCount < 99) {
+            dispatch(plusOnePeopleToCart({ data: dataItem, id: itemId }))
+            const newObjItems = { id: itemId, data: dataItem, count: cart.people[itemId].count + 1 }
+            localStorage.setItem('cart', JSON.stringify({
+                ...cart,
+                people: {
+                    ...cart.people,
+                    [itemId]: newObjItems,
+                    peopleTotalCount: utils.getTotalCount(cart.people)
+                }
+            }))
+            return
+        }
+        if (typeItem === "starship" && itemCount < 99) {
+            dispatch(plusOneStarShipToCart({ data: dataItem, id: itemId }))
+            const newObjItems = { id: itemId, data: dataItem, count: cart.starships[itemId].count + 1 }
+            localStorage.setItem('cart', JSON.stringify({
+                ...cart,
+                starships: {
+                    ...cart.starships,
+                    [itemId]: newObjItems,
+                    starShipTotalCount: utils.getTotalCount(cart.starships)
+                }
+            }))
+        }
+
     }
 
     const onDeleteItem = () => {
 
-        typeItem === "people"
-            ? dispatch(clearOnePeopleItemCart(itemId))
-            : dispatch(clearOneStarShipItemCart(itemId))
+        if (typeItem === "people") {
+            dispatch(clearOnePeopleItemCart(itemId))
+            const newCart = {
+                ...cart.people,
+                peopleTotalCount: cart.people.peopleTotalCount - cart.people[itemId].count
+            }
+            delete newCart[itemId]
+
+            localStorage.setItem('cart', JSON.stringify({
+                ...cart,
+                people: Object.keys(newCart).length === 0
+                    ? null
+                    : newCart
+            }))
+            return
+        }
+        dispatch(clearOneStarShipItemCart(itemId))
+        const newCart = {
+            ...cart.starships,
+            starShipTotalCount: cart.starships.starShipTotalCount - cart.starships[itemId].count
+        }
+        delete newCart[itemId]
+
+        localStorage.setItem('cart', JSON.stringify({
+            ...cart,
+            starships: Object.keys(newCart).length === 0
+                ? null
+                : newCart
+        }))
     }
 
     return (

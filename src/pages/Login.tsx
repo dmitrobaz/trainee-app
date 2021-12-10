@@ -5,10 +5,9 @@ import { Helmet } from "react-helmet";
 
 import { FormBuilder, MainWrapper } from '../components';
 
-import { loginConfig as formConfig } from '../config/configForLoginForm';
 import { setAuthenticated } from '../redux/actions/app/states';
 
-
+import { loginConfig as formConfig } from '../config/configForLoginForm';
 
 interface ILogin {
     isSameLoginPassword: (formData: any, userData: any) => boolean,
@@ -16,27 +15,16 @@ interface ILogin {
     history: () => void
 }
 
-interface IData {
-    formData: { [name: string]: string },
-    dataBase: [{ [name: string]: string }]
-}
-
 type formDataType = { [name: string]: string }
 type dataBaseType = [{ [name: string]: string }]
 const Login: React.FC<ILogin> = () => {
-
-    // STATETS===================================
     // States for error when login not exist in local storage
-    const [errorSingUp, setErrorSingUp] = useState<string>('')
+    const [errorLogIn, setErrorSingUp] = useState<string>('')
     const [successfulLogIn, setSuccessfulLogIn] = useState<string>('')
 
-
-    // CONSTANTS================================= 
     const dispatch = useDispatch();
     const users = useSelector(({ app }: { [name: string]: any }) => app.users)
-    const history = useHistory()
 
-    // FUNCTIONS=================================
     // Check password and login from input states(formData) with data in local storage 
     const isSameLoginLocalStorage =
         (formData: { [name: string]: string }, localStorageData: { [name: string]: string }) =>
@@ -57,8 +45,8 @@ const Login: React.FC<ILogin> = () => {
 
 
     const takeDataFromFormBuilder: (formData: any) => void = (formData) => {
-        const dirtyDataFromLocalStorage: any = localStorage.getItem('users')
-        const userDataFromLocalStorage = JSON.parse(dirtyDataFromLocalStorage)
+        const stringDataFromLocalStorage: string | null = localStorage.getItem('users')
+        const userDataFromLocalStorage = JSON.parse(stringDataFromLocalStorage || 'Empty local storage')
 
         if (!userDataFromLocalStorage && (users.length === 0)) {
             setErrorSingUp('User data base is empty')
@@ -67,44 +55,18 @@ const Login: React.FC<ILogin> = () => {
 
         if (isSameLoginRedux(formData, users) || isSameLoginLocalStorage(formData, userDataFromLocalStorage)) {
             setSuccessfulLogIn('Successful log in')
+            localStorage.setItem('auth', 'true')
             setTimeout(() => dispatch(setAuthenticated(true)), 500)
             return
         }
-
         setErrorSingUp('Wrong login');
-
-
     }
     return (
-
-        <div style={{
-            display: 'flex', position: 'relative', justifyContent: 'center'
-        }}>
-            {errorSingUp !== ''
-                ? <span style={{
-                    position: 'absolute',
-                    top: "95px",
-                    textAlign: 'center',
-                    width: '52%',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    backgroundColor: '#ff7676',
-                }}>{errorSingUp}</span>
-                : ""
-            }
-            {
-                successfulLogIn !== ''
-                    ? <span style={{
-                        position: 'absolute',
-                        top: "95px",
-                        textAlign: 'center',
-                        width: '52%',
-                        padding: '10px',
-                        borderRadius: '5px',
-                        backgroundColor: '#81ffb7',
-                    }}>{successfulLogIn}</span>
-                    : ""
-            }
+        <>
+            <div className='log-in-info'>
+                {errorLogIn !== '' ? <span className='log-in log-in-error'>{errorLogIn}</span> : ""}
+                {successfulLogIn !== '' ? <span className='log-in log-in-success'>{successfulLogIn}</span> : ""}
+            </div >
             <MainWrapper >
                 <Helmet>
                     <title>Login page</title>
@@ -116,14 +78,13 @@ const Login: React.FC<ILogin> = () => {
                     formTitle="Login"
                     linkText="Forgot password"
                     link="/registration"
-                    errorSingUp={errorSingUp}
+                    errorSingUp={errorLogIn}
                 />
-
             </MainWrapper>
+        </>
 
 
 
-        </div >
     );
 }
 
