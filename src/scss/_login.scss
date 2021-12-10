@@ -1,5 +1,25 @@
 @import "./vars";
 
+.log-in {
+    position: absolute;
+    top: 95px;
+    text-align: center;
+    width: 52%;
+    padding: 10px;
+    border-radius: 5px;
+    &-error {
+        background-color: #ff7676;
+    }
+    &-success {
+        background-color: #81ffb7;
+    }
+    &-info {
+        display: flex;
+        position: relative;
+        justify-content: center;
+    }
+}
+
 .login-form {
     display: flex;
     flex-direction: column;

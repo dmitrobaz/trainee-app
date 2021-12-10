@@ -4,31 +4,36 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Route from './Route';
 
-import { addPeopleToCart, addStarShipsToCart } from './redux/actions/app';
+import { setAuthenticated, addDataToCartFromLocalStorage } from './redux/actions/app';
 
 
-// import './style.scss';
+import './style.scss';
+
+import * as utils from './utils';
 
 
-const App: React.FC = ({ children }) => {
+const App: React.FC = () => {
+    const cartDataLocalStorage = utils.jsonParse(localStorage.getItem('cart'))
+
     const dispatch = useDispatch()
-
-    const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
-
-
-    const auth: any = parseDataFromLS(localStorage.getItem('auth')) ? parseDataFromLS(localStorage.getItem('auth')) : false
-    const starShipsCardDataLS = parseDataFromLS(localStorage.getItem('starShipCardsData'))
-    const peopleCardsDataLS = parseDataFromLS(localStorage.getItem('peopleCardsData'))
-
-    // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-
     const isAuthenticated = useSelector(({ app }: any) => app.states.isAuthenticated)
 
+    const auth: any = utils.jsonParse(localStorage.getItem('auth')) ? utils.jsonParse(localStorage.getItem('auth')) : false
 
-    // useEffect(() => {
-    //     peopleCardsDataLS && peopleCardsDataLS.forEach((item: any) => dispatch(addPeopleToCart(item)))
-    //     starShipsCardDataLS && starShipsCardDataLS.forEach((item: any) => dispatch(addStarShipsToCart(item)))
-    // }, [])
+    useEffect(() => {
+        dispatch(setAuthenticated(auth))
+        console.log('cartDataLocalStorage.people.peopleTotalCount', cartDataLocalStorage?.people.peopleTotalCount);
+
+        if (!cartDataLocalStorage?.people.peopleTotalCount && !cartDataLocalStorage?.starships.starShipTotalCount) {
+            localStorage.setItem('cart', JSON.stringify({
+                people: { peopleTotalCount: 0 },
+                starships: { starShipTotalCount: 0 }
+            }))
+            return
+        }
+        dispatch(addDataToCartFromLocalStorage(cartDataLocalStorage))
+    }, [])
+
     return (
         <>
             <Helmet>

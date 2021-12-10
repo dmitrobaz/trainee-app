@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Input from './Input';
 import { Link } from 'react-router-dom';
 
-import * as utils from "../utils";
+import * as utils from "../../utils";
 
 interface IComponentProps {
     formTitle: string,

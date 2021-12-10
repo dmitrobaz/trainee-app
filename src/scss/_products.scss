@@ -118,6 +118,7 @@
         text-decoration: none;
         position: relative;
         &-button {
+            position: absolute;
             cursor: pointer;
             margin: 5px 0 10px 0;
             z-index: 10;

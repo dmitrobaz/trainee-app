@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { addPeopleToCart } from '../redux/actions/app/';
+import { addPeopleToCart } from '../../redux/actions/app/';
 
+import * as utils from "../../utils";
 
 interface IPeopleCard {
     img?: any,
@@ -14,8 +15,6 @@ interface IPeopleCard {
 
 const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) => {
     const [isItemAdded, setIsItemAdded] = useState<boolean>(false)
-
-    const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
 
     const dispatch = useDispatch()
     const peopleData = useSelector(({ app }: any) => app.cart.people)
@@ -36,14 +35,32 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
         setIsItemAdded(true)
         dispatch(addPeopleToCart({ data: currentCardData, id: peopleId }))
 
-        const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('peopleCardsData'))
+        const cartDataFromLS = utils.jsonParse(localStorage.getItem('cart'))
 
-        if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
-            localStorage.setItem('peopleCardsData', JSON.stringify([currentCardData]))
+        if (!cartDataFromLS.people || !(peopleId in cartDataFromLS.people)) {
+            localStorage.setItem('cart', JSON.stringify({
+                ...cartDataFromLS,
+                people: {
+                    ...cartDataFromLS.people,
+                    [peopleId]: {
+                        id: peopleId, data: currentCardData, count: 1
+                    },
+                    peopleTotalCount: utils.getTotalCount(cartDataFromLS.people)
+                }
+            }))
             return
         }
-        if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
-            localStorage.setItem('peopleCardsData', JSON.stringify([...currentPeopleDataFromLS, currentCardData]))
+        if (peopleId in cartDataFromLS.people) {
+            localStorage.setItem('cart', JSON.stringify({
+                ...cartDataFromLS,
+                people: {
+                    ...cartDataFromLS.people,
+                    [peopleId]: {
+                        id: peopleId, data: currentCardData, count: cartDataFromLS.people[peopleId].count + 1
+                    },
+                    peopleTotalCount: utils.getTotalCount(cartDataFromLS.people)
+                }
+            }))
             return
         }
     }
@@ -55,7 +72,7 @@ const PeopleCard: React.FC<IPeopleCard> = ({ currentCardData, img, styleCard }) 
             }}></Link >
 
             <div className={styleCard ? "product__item-content-list" : "product__item-content"}>
-                <p className="product__item-content-img-wrapper"> 
+                <p className="product__item-content-img-wrapper">
                     <img className="product__item-content-img" src={memoImg} alt="Star Wars character image" />
                 </p>
                 <div>

@@ -2,7 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { addStarShipsToCart } from '../redux/actions/app';
+import { addStarShipsToCart } from '../../redux/actions/app';
+
+import * as utils from "../../utils";
 
 interface IStarShipsCard {
     img: string,
@@ -34,16 +36,36 @@ const StarShipsCard: React.FC<IStarShipsCard> = ({ currentCardData, img, styleCa
 
     const clickHandler = () => {
         setIsItemAdded(true)
+
         dispatch(addStarShipsToCart({ data: currentCardData, id: starShipId }))
 
-        const currentPeopleDataFromLS = parseDataFromLS(localStorage.getItem('starShipCardsData'))
+        const cartDataFromLS = utils.jsonParse(localStorage.getItem('cart'))
 
-        if (currentPeopleDataFromLS === null || currentPeopleDataFromLS === []) {
-            localStorage.setItem('starShipCardsData', JSON.stringify([currentCardData]))
+        if (!cartDataFromLS.starships || !(starShipId in cartDataFromLS.starships)) {
+            localStorage.setItem('cart', JSON.stringify({
+                ...cartDataFromLS,
+                starships: {
+                    ...cartDataFromLS.starships,
+                    [starShipId]: {
+                        id: starShipId, data: currentCardData, count: 1
+                    },
+                    starShipTotalCount: utils.getTotalCount(cartDataFromLS.starships)
+
+                }
+            }))
             return
         }
-        if (currentPeopleDataFromLS !== null || currentPeopleDataFromLS !== []) {
-            localStorage.setItem('starShipCardsData', JSON.stringify([...currentPeopleDataFromLS, currentCardData]))
+        if (starShipId in cartDataFromLS.starships) {
+            localStorage.setItem('cart', JSON.stringify({
+                ...cartDataFromLS,
+                starships: {
+                    ...cartDataFromLS.starships,
+                    [starShipId]: {
+                        id: starShipId, data: currentCardData, count: cartDataFromLS.starships[starShipId].count + 1
+                    },
+                    starShipTotalCount: utils.getTotalCount(cartDataFromLS.starships)
+                }
+            }))
             return
         }
     }

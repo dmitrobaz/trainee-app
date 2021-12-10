@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import CartPopup from './CartPopup';
+import {CartPopup} from '../index';
 
 import { RiSpaceShipFill } from 'react-icons/ri';
 import { BsPeopleFill } from 'react-icons/bs';

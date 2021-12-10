@@ -1,18 +1,28 @@
-export { default as Input } from './Input';
-export { default as FormBuilder } from './FormBuilder';
-export { default as ProductCard } from './ProductCard';
-export { default as ItemCard } from './ItemCard';
-export { default as MyLoader } from './MyLoader';
-export { default as ButtonCart } from './ButtonCart';
-export { default as Header } from './Header';
-export { default as MainWrapper } from '../HOC/MainWrapper';
-export { default as StarShipsCard } from './StarShipsCard';
-export { default as PeopleCard } from './PeopleCard';
-export { default as NavButtons } from './NavButtons';
-export { default as Loading } from './Loading';
-export { default as ShowInfo } from './ShowInfo';
-export { default as CartPopupItem } from './CartPopupItem';
+// CARDS 
+export { default as ProductCard } from './card/ProductCard';
+export { default as PeopleCard } from './card/PeopleCard';
+export { default as StarShipsCard } from './card/StarShipsCard';
+export { default as ShowInfo } from './card/ShowInfo';
 
+// FORM 
+export { default as Input } from './form/Input';
+export { default as FormBuilder } from './form/FormBuilder';
+
+// MAIN 
+export { default as MyLoader } from './main/MyLoader';
+export { default as Loading } from './main/Loading';
+export { default as NavButtons } from './main/NavButtons';
+
+// HEADER 
+export { default as ButtonCart } from './header/ButtonCart';
+export { default as Header } from './header/Header';
+
+// HOC 
+export { default as MainWrapper } from '../HOC/MainWrapper';
+
+// POPUP 
+export { default as CartPopupItem } from './popup/CartPopupItem';
+export { default as CartPopup } from './popup/CartPopup';
 
 
 

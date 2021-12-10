@@ -8,10 +8,11 @@ import { Header, MainWrapper, ShowInfo } from '../components';
 import { getOnePeopleResponse, getOneStarShipResponse } from '../redux/actions/request';
 import { addStarShipsToCart, addPeopleToCart } from '../redux/actions/app/';
 
-import { imagesPeopleBig, imagesStarShipsBig } from '../assets/img';
+import { imagesPeopleBig, imagesStarShipsBig } from '../assets/img/';
 
 
 const CardPage: React.FC = () => {
+
     const [isItemAdded, setIsItemAdded] = useState<boolean>(false)
 
     const parseDataFromLS = (localStorage: any) => JSON.parse(localStorage)
@@ -35,14 +36,12 @@ const CardPage: React.FC = () => {
     const itemRequestUrl = useLocation().search.split('=')[1]
     const isPeoplePage = currentPageUrl.includes('people')
 
-    const isItemExistInStore = isPeoplePage
+    const isItemExistInStore = currentPageUrl.includes('people')
         ? cartData.people.peopleTotalCount && cartData.people[peopleId]?.count
         : cartData.starships.starShipTotalCount && cartData.starships[starShipId]?.count
 
-
-
-    const memoPeopleImg = useMemo(() => imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)].default, [])
-    const memoStarShipImg = useMemo(() => imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)].default, [])
+    const memoPeopleImg = useMemo(() => imagesPeopleBig[Math.floor(Math.random() * imagesPeopleBig.length)], [])
+    const memoStarShipImg = useMemo(() => imagesStarShipsBig[Math.floor(Math.random() * imagesStarShipsBig.length)], [])
 
     const portal = document.getElementById('portal')
 

@@ -9,35 +9,19 @@ import { registConfig as formConfig } from "../config/configForRegistrFrom";
 
 import { addUserToStore } from '../redux/actions/app/users';
 
-
-
-
-
-// interface IUserData {
-//     [name: string]: string
-// }
 interface IRegProps {
     setRedirect?: any
 }
 
 const Registration: React.FC<IRegProps> = () => {
-
-    // CONSTANTS=================================
     const dispatch: (obj: object) => void = useDispatch();
+
     const history = useHistory()
-
-
-    // HOOKS=====================================
 
     // OnClickSubmit function 
     const takeDataFromFormBuilder = (formData: any) => {
-        // Add form data to Redux Storage 
         dispatch(addUserToStore(formData));
-
-        // Add form data to local storage 
         localStorage.setItem('users', JSON.stringify(formData));
-
-        // Redirect to login page 
         history.push('/login')
     }
 

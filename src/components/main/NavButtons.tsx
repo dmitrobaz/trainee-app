@@ -2,8 +2,7 @@ import React from 'react';
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
-import { setAuthenticated } from '../redux/actions/app/states';
-import { clearCart } from '../redux/actions/app';
+import { clearCart, setAuthenticated } from '../../redux/actions/app';
 
 import { FiArrowLeft, FiList, FiLogOut, FiSquare, FiTrash2, FiX } from 'react-icons/fi';
 
@@ -22,11 +21,11 @@ const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft, c
 
     const logOut = () => {
         dispatch(setAuthenticated(false))
+        localStorage.setItem('auth', 'false')
     }
 
     const onClearCart = () => {
-        localStorage.removeItem('peopleCardsData')
-        localStorage.removeItem('starShipCardsData')
+        localStorage.removeItem('cart')
         dispatch(clearCart())
         closePopup()
     }
@@ -36,8 +35,6 @@ const NavButtons: React.FC<INavButtonProps> = ({ onClick, view, linkArrowLeft, c
             {closePopup && <> <button onClick={onClearCart}><FiTrash2 /></button><button onClick={closePopup} ><FiX /></button></>}
 
             {linkArrowLeft && <Link to={linkArrowLeft}><FiArrowLeft /></Link>}
-
-
 
             {linkArrowLeft && (location.pathname === "/products/people" || location.pathname === "/products/starships") &&
                 <button onClick={onClick}>

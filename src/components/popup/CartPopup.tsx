@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { CartPopupItem, MainWrapper } from '.';
+import { CartPopupItem, MainWrapper } from '../';
 
 interface ICartPopupProps {
     closePopup: any
